@@ -1,109 +1,45 @@
 # Testing Strategy
 
-## Testing Levels
+## Testing Frameworks
 
-### Unit Testing
+### Unit and Integration Testing
+- **Framework**: Jest with SWC compiler transformation (`jest.config.js`).
+- **Target**: Pure helper functions, math logic (`src/services/carbon.ts`), rating calculations (`src/services/dashboard.ts`), and validator schemas (`src/lib/validations.ts`).
 
-Framework:
+### UI Component Testing
+- **Framework**: React Testing Library with `@testing-library/react` and `jest-environment-jsdom`.
+- **Target**: Assessment forms, dashboard metrics layout.
 
-Jest
-
-Coverage:
-
-- Carbon calculations
-- Score generation
-- Challenge validation
-- Verification logic
-
----
-
-### Integration Testing
-
-Coverage:
-
-- API endpoints
-- Database interactions
-- AI services
+### End-to-End (E2E) Testing
+- **Framework**: Playwright (`playwright.config.ts`).
+- **Target**: User onboarding, full carbon score calculations, challenge submissions.
 
 ---
 
-### E2E Testing
+## Test Execution
 
-Framework:
+### Run Unit/Integration Tests
+```bash
+npm run test
+```
 
-Playwright
-
-Coverage:
-
-- Assessment flow
-- Challenge flow
-- Verification flow
-- Dashboard updates
-
----
-
-# Test Cases
-
-## Assessment
-
-✓ Valid assessment
-
-✓ Missing fields
-
-✓ Negative values
-
-✓ Extreme values
+### Run Playwright E2E Tests
+```bash
+npm run test:e2e
+```
 
 ---
 
-## Challenge Submission
+## Core Test Cases
 
-✓ Valid text evidence
+### Assessment Scoring & Validation
+- ✓ Valid carbon calculations for combinations of travel distances, diets, and energy bills (`tests/carbon.test.ts`).
+- ✓ Null / negative bounds handler behavior and edge case inputs (`tests/assessment.test.ts`).
+- ✓ Zod schema rejection on missing inputs or empty submissions (`tests/assessment.test.ts`).
 
-✓ Valid image evidence
+### Dashboard Metrics & Conversions
+- ✓ Letter grade allocation based on carbon score levels (`tests/dashboard.test.ts`).
+- ✓ Data conversions from form payloads into categorized chart segments (`tests/dashboard.test.ts`).
 
-✓ Missing evidence
-
-✓ Unsupported file
-
----
-
-## Authentication
-
-✓ Login success
-
-✓ Invalid credentials
-
-✓ Session expiry
-
----
-
-## Security
-
-✓ XSS attempts
-
-✓ SQL injection attempts
-
-✓ File upload restrictions
-
-✓ Unauthorized access
-
----
-
-## Performance
-
-✓ Dashboard load
-
-✓ Assessment submission
-
-✓ AI response timeout handling
-
----
-
-## Accessibility
-
-✓ Keyboard navigation
-
-✓ Contrast validation
-
-✓ Responsive layouts
+### Form Validations
+- ✓ File metadata size and file format checker bounds.
