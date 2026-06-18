@@ -22,6 +22,7 @@ All tasks follow the MVP First Policy workflow:
 * [x] Create reusable UI layout components: `AssessmentCard`, `AssessmentForm`, `AssessmentResult`
 * [x] Add loading states, error states, and strict TypeScript types
 * [x] Verify assessment functionality and perform boundary/error test validations
+* [x] Review and refine carbon scoring weights (diet, transport, utility scaling) for realism and trust
 
 ### 2. Dashboard
 * [x] Build Dashboard presentation shell (`src/app/dashboard/`)
@@ -29,29 +30,38 @@ All tasks follow the MVP First Policy workflow:
 * [x] Add streak indicators, green points display, and rating blocks
 * [x] Integrate mock or real data from Supabase DB/Services (localStorage integration completed for MVP experience)
 * [x] Implement reusable layout components: `DashboardHeader`, `MetricCards`, `CarbonBreakdownChart`, `SustainabilityRating`, `ImpactSummaryCard`
+* [x] Calibrate Sustainability Grade ranges and descriptions to align with realistic footprint distributions
 
 ### 3. AI Recommendations (Coach)
-* [ ] Design AI recommendation layout in coach panel
-* [ ] Implement Gemini AI prompt orchestrator (`src/services/ai.ts`) with failure/timeout handling
-* [ ] Add recommendations generator API endpoint
-* [ ] Set up caching service for AI recommendation responses
+* [x] Design AI recommendation layout in coach panel
+* [x] Implement Gemini AI prompt orchestrator (`src/services/ai.ts`) with failure/timeout handling
+* [x] Add recommendations generator API endpoint (`src/app/api/coach/route.ts`)
+* [x] Implement local fallback recommendation engine when Gemini API is offline/unavailable
+* [x] Create reusable UI layout components: `AICoachCard`, `RecommendationList`, `ImpactBadge`
+* [x] Add loading states, error states, and retry fetching triggers
 
 ### 4. Challenges
-* [ ] Define weekly challenges list catalog / DB Schema
-* [ ] Develop challenges view page showing active/completed tasks
-* [ ] Build individual challenge selection and progress tracking
-* [ ] Set up DB tables for user-challenge tracking
+* [x] Define weekly challenges list catalog targeting largest emissions category (`src/services/challenge.ts`)
+* [x] Develop challenges view layout on Dashboard page
+* [x] Build individual challenge selection and progress tracking
+* [x] Implement reusable UI components: `ChallengeCard`, `ChallengeList`, `ChallengeProgress`, `ChallengeCompleteButton`
+* [x] Build self-verification completion mechanism storing results in `localStorage`
 
 ### 5. Verification
-* [ ] Build challenge completion submission form (evidence text / upload file)
+* [x] Build verification service at `src/services/verification.ts` supporting validations and log tracking
+* [x] Create reusable verification UI components: `VerificationModal`, `VerificationBadge`, `VerificationHistory`
+* [x] Connect verification submissions to dashboard points allocation updates
+* [x] Persist verification logs history under `localStorage` to survive page refreshes
 * [ ] Integrate Supabase Storage client helper for file uploads
 * [ ] Build Gemini AI verification evaluator service (text/image analysis)
 * [ ] Implement verification security controls (max 5MB, format check, sanitization)
 
 ### 6. Rewards
-* [ ] Implement Green Points calculation and update routines
-* [ ] Build badge/achievements unlocking engine
-* [ ] Connect points updating to dashboard state
+* [x] Implement tier checking and points progress indicators in `src/services/rewards.ts`
+* [x] Define rules for unlocking achievement badges (First Verified, 3 Challenges, 100 points, A, A+)
+* [x] Create reusable UI components: `RewardsPanel`, `RewardProgressCard`, `AchievementGrid`, `AchievementBadge`
+* [x] Mount RewardsPanel on Dashboard page to display real-time tier updates and badge locks
+* [x] Persist unlocked badges state in `localStorage` to survive refreshes
 
 ---
 
@@ -59,6 +69,7 @@ All tasks follow the MVP First Policy workflow:
 * [x] Document API routes and directories in ARCHITECTURE.md
 * [x] Document security controls and validations in SECURITY.md
 * [x] Document testing configurations and test suites in TESTING.md
+* [x] Document challenge weekly activity and rewards standing workflow flows in WORKFLOW.md
 * [ ] Add setup and run scripts guidance to README.md
 
 ---
@@ -77,6 +88,10 @@ All tasks follow the MVP First Policy workflow:
 * [x] Write unit tests for carbon calculators and score generators
 * [x] Write unit tests for Gemini parser functions and Zod validations
 * [x] Set up Playwright for E2E testing
+* [x] Write unit tests for weekly challenge logic and category mapping
+* [x] Write unit tests for weekly rating calibration range transitions
+* [x] Write unit tests for verification notes validation, transitions, and history logging
+* [x] Write unit tests for rewards progress and badge unlocks
 * [ ] Implement E2E tests for Assessment-to-Dashboard flows
 
 ---

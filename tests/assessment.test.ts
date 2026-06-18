@@ -125,11 +125,11 @@ describe("Assessment Module Tests", () => {
       const smallFamilyScore = CarbonService.calculateScore(smallFamilyInput);
       const largeFamilyScore = CarbonService.calculateScore(largeFamilyInput);
 
-      // Small family electricity: (300 * 1.5 * 12 * 0.4) / 1 = 2160 kg = 2.16 tons
-      // Large family electricity: (300 * 1.5 * 12 * 0.4) / 10 = 216 kg = 0.216 tons
+      // Small family electricity: (300 * 6.0 * 12 * 0.4) / 1 = 8640 kg = 8.64 tons
+      // Large family electricity: (300 * 6.0 * 12 * 0.4) / 10 = 864 kg = 0.864 tons (rounds to 0.86)
       expect(largeFamilyScore).toBeLessThan(smallFamilyScore);
-      expect(smallFamilyScore).toBe(3.66); // 1.5 diet + 2.16 energy
-      expect(largeFamilyScore).toBe(1.72); // 1.5 diet + 0.22 energy
+      expect(smallFamilyScore).toBe(10.14); // 1.5 diet + 8.64 energy
+      expect(largeFamilyScore).toBe(2.36); // 1.5 diet + 0.86 energy
     });
 
     it("should calculate correctly for high electricity usage (boundary values)", () => {
@@ -143,9 +143,58 @@ describe("Assessment Module Tests", () => {
 
       const score = CarbonService.calculateScore(input);
       // Diet: 1500 kg
-      // Energy: (2000 * 1.5 * 12 * 0.4) / 2 = 7200 kg = 7.2 tons
-      // Total: 8.7 tons
-      expect(score).toBe(8.7);
+      // Energy: (2000 * 6.0 * 12 * 0.4) / 2 = 28800 kg = 28.8 tons
+      // Total: 30.3 tons
+      expect(score).toBe(30.3);
+    });
+
+    // Realism Sprint Test Additions:
+    it("should evaluate balanced lifestyle correctly", () => {
+      const input = {
+        familySize: 4,
+        monthlyElectricityBill: 150,
+        vehicleType: VehicleType.HYBRID,
+        weeklyTravelDistance: 120,
+        dietPreference: DietPreference.BALANCED,
+      };
+      const score = CarbonService.calculateScore(input);
+      // Diet: 2500 kg
+      // Transport: 120 * 52 * 0.1 = 624 kg
+      // Electricity: (150 * 6.0 * 12 * 0.4) / 4 = 1080 kg
+      // Total: 4204 kg = 4.2 tons
+      expect(score).toBe(4.2);
+    });
+
+    it("should evaluate heavy commuter correctly", () => {
+      const input = {
+        familySize: 2,
+        monthlyElectricityBill: 100,
+        vehicleType: VehicleType.DIESEL,
+        weeklyTravelDistance: 500, // high commuter
+        dietPreference: DietPreference.BALANCED,
+      };
+      const score = CarbonService.calculateScore(input);
+      // Diet: 2500 kg
+      // Transport: 500 * 52 * 0.22 = 5720 kg
+      // Electricity: (100 * 6 * 12 * 0.4) / 2 = 1440 kg
+      // Total: 2500 + 5720 + 1440 = 9660 kg = 9.66 tons
+      expect(score).toBe(9.66);
+    });
+
+    it("should evaluate vegetarian household correctly", () => {
+      const input = {
+        familySize: 3,
+        monthlyElectricityBill: 180,
+        vehicleType: VehicleType.ELECTRIC,
+        weeklyTravelDistance: 100,
+        dietPreference: DietPreference.VEGETARIAN,
+      };
+      const score = CarbonService.calculateScore(input);
+      // Diet: 1700 kg
+      // Transport: 100 * 52 * 0.05 = 260 kg
+      // Electricity: (180 * 6 * 12 * 0.4) / 3 = 1728 kg
+      // Total: 1700 + 260 + 1728 = 3688 kg = 3.69 tons
+      expect(score).toBe(3.69);
     });
   });
 });

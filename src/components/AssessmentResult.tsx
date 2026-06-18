@@ -1,6 +1,6 @@
 import React from "react";
-import { DietPreference, VehicleType } from "@/lib/constants";
 import { AssessmentFormInput } from "@/lib/validations";
+import { CarbonService } from "@/services/carbon";
 
 interface AssessmentResultProps {
   score: number;
@@ -9,26 +9,10 @@ interface AssessmentResultProps {
 }
 
 export function AssessmentResult({ score, input, onReset }: AssessmentResultProps) {
-  // Compute individual emissions estimates for visual breakdown in kg CO2
-  const dietEmissions = {
-    [DietPreference.VEGAN]: 1500,
-    [DietPreference.VEGETARIAN]: 1700,
-    [DietPreference.PESCATARIAN]: 2000,
-    [DietPreference.BALANCED]: 2500,
-    [DietPreference.MEAT_LOVER]: 3300,
-  }[input.dietPreference];
-
-  const travelFactor = {
-    [VehicleType.NONE]: 0,
-    [VehicleType.ELECTRIC]: 0.05,
-    [VehicleType.HYBRID]: 0.1,
-    [VehicleType.GASOLINE_SMALL]: 0.17,
-    [VehicleType.GASOLINE_LARGE]: 0.27,
-    [VehicleType.DIESEL]: 0.22,
-  }[input.vehicleType];
-
-  const travelEmissions = Math.round(input.weeklyTravelDistance * 52 * travelFactor);
-  const electricityEmissions = Math.round((input.monthlyElectricityBill * 1.5 * 12 * 0.4) / input.familySize);
+  // Compute individual emissions estimates using centralized service
+  const dietEmissions = CarbonService.getDietEmissions(input.dietPreference);
+  const travelEmissions = CarbonService.getTransportEmissions(input.vehicleType, input.weeklyTravelDistance);
+  const electricityEmissions = CarbonService.getElectricityEmissions(input.monthlyElectricityBill, input.familySize);
   const totalKg = dietEmissions + travelEmissions + electricityEmissions;
 
   // Identify highest impact category

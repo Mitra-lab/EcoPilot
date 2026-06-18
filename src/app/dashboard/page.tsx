@@ -7,6 +7,11 @@ import { MetricCards } from "@/components/MetricCards";
 import { CarbonBreakdownChart } from "@/components/CarbonBreakdownChart";
 import { SustainabilityRating } from "@/components/SustainabilityRating";
 import { ImpactSummaryCard } from "@/components/ImpactSummaryCard";
+import { AICoachCard } from "@/components/AICoachCard";
+import { ChallengeList } from "@/components/ChallengeList";
+import { VerificationHistory } from "@/components/VerificationHistory";
+import { RewardsPanel } from "@/components/RewardsPanel";
+import { VerificationService, VerificationRecord } from "@/services/verification";
 import { DashboardService, DashboardChartData } from "@/services/dashboard";
 import { AssessmentFormInput } from "@/lib/validations";
 
@@ -14,22 +19,44 @@ export default function DashboardPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [points, setPoints] = useState(120);
+  const [verificationHistory, setVerificationHistory] = useState<VerificationRecord[]>([]);
   const [assessmentData, setAssessmentData] = useState<{
     score: number;
     input: AssessmentFormInput;
   } | null>(null);
 
-  useEffect(() => {
+  const loadDashboardData = () => {
     try {
       const stored = localStorage.getItem("ecopilot_assessment");
       if (stored) {
-        setAssessmentData(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        setAssessmentData(parsed);
+        if (parsed.points !== undefined) {
+          setPoints(parsed.points);
+        }
       }
+      VerificationService.syncLegacyVerifications();
+      setVerificationHistory(VerificationService.getHistory());
     } catch (err) {
       setError("Failed to parse carbon assessment data. Please take the assessment again.");
     } finally {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    loadDashboardData();
+
+    // Listen for storage events to synchronize points across components
+    const handleStorageChange = () => {
+      loadDashboardData();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   const handleResetAssessment = () => {
@@ -89,9 +116,18 @@ export default function DashboardPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
       <DashboardHeader onResetAssessment={handleResetAssessment} />
-      <MetricCards carbonScore={score} rating={rating} />
+      <MetricCards carbonScore={score} rating={rating} points={points} />
       <SustainabilityRating rating={rating} />
       <CarbonBreakdownChart data={chartData} />
+      <AICoachCard score={score} grade={rating} input={input} />
+      <ChallengeList 
+        score={score} 
+        input={input} 
+        onPointsUpdate={loadDashboardData}
+        onVerificationUpdate={loadDashboardData}
+      />
+      <RewardsPanel points={points} verifications={verificationHistory} grade={rating} />
+      <VerificationHistory history={verificationHistory} />
       <ImpactSummaryCard input={input} />
     </div>
   );

@@ -7,28 +7,28 @@ interface SustainabilityRatingProps {
 export function SustainabilityRating({ rating }: SustainabilityRatingProps) {
   const ratingDetails = {
     "A+": {
-      title: "Climate Hero status",
-      description: "Exceptional! Your carbon output is at a minimal level, showing great care and sustainable choices. Keep it up!",
+      title: "Exceptional sustainability",
+      description: "Excellent! Your carbon footprint is outstandingly low. You are leading the way in environmental stewardship.",
       badge: "🥇",
     },
     "A": {
-      title: "Green Leader",
-      description: "Fantastic score! You live significantly more sustainably than the average person. Aim for A+ by tuning small habits.",
+      title: "Strong sustainability",
+      description: "Fantastic score! You live significantly more sustainably than the average person. Small tweaks can push you to A+.",
       badge: "🥈",
     },
     "B": {
-      title: "Active Conserver",
-      description: "Good job! You are doing well, but there is clear potential to reduce further. Check out electricity or commuting options.",
+      title: "Good but improvable",
+      description: "You have a solid foundation, but there are clear opportunities to optimize your home energy use or travel habits.",
       badge: "🥉",
     },
     "C": {
-      title: "Modest Footprint",
-      description: "Your carbon output is moderate. Sustainable alternatives (like a balanced diet or walking more) will yield fast improvements.",
+      title: "Significant improvement opportunities",
+      description: "Your carbon footprint is moderate. Adopting habits like walking or introducing meat-free days will yield fast improvements.",
       badge: "🌱",
     },
     "D": {
-      title: "High Environmental Impact",
-      description: "Your current score is high. Focus on high-return targets: reducing single-occupancy vehicle trips and optimized energy use.",
+      title: "High environmental impact",
+      description: "Your footprint is high. Focus on major targets like reducing car travel and optimizing home cooling/heating systems.",
       badge: "⚠️",
     },
   }[rating];

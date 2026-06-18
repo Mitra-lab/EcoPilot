@@ -7,33 +7,31 @@ import { AssessmentFormInput } from "@/lib/validations";
  */
 export class CarbonService {
   /**
-   * Calculates carbon footprint estimate from form inputs.
+   * Calculates annual diet emissions (kg CO2)
    */
-  static calculateScore(input: AssessmentFormInput): number {
-    let score = 0;
-
-    // 1. Diet emissions (base kg CO2 / year)
-    switch (input.dietPreference) {
+  static getDietEmissions(diet: DietPreference): number {
+    switch (diet) {
       case DietPreference.VEGAN:
-        score += 1500;
-        break;
+        return 1500;
       case DietPreference.VEGETARIAN:
-        score += 1700;
-        break;
+        return 1700;
       case DietPreference.PESCATARIAN:
-        score += 2000;
-        break;
+        return 2000;
       case DietPreference.BALANCED:
-        score += 2500;
-        break;
+        return 2500;
       case DietPreference.MEAT_LOVER:
-        score += 3300;
-        break;
+        return 3300;
+      default:
+        return 2500;
     }
+  }
 
-    // 2. Transport emissions
+  /**
+   * Calculates annual transportation emissions (kg CO2)
+   */
+  static getTransportEmissions(vehicleType: VehicleType, weeklyDistance: number): number {
     let emissionFactor = 0; // kg CO2 per km
-    switch (input.vehicleType) {
+    switch (vehicleType) {
       case VehicleType.NONE:
         emissionFactor = 0;
         break;
@@ -53,15 +51,28 @@ export class CarbonService {
         emissionFactor = 0.22;
         break;
     }
-    // Multiply weekly distance by 52 weeks and the vehicle emission factor
-    score += input.weeklyTravelDistance * 52 * emissionFactor;
+    return Math.round(weeklyDistance * 52 * emissionFactor);
+  }
 
-    // 3. Electricity emissions (simplified: electricity bill division by family size)
-    // Assume average cost per kWh and regional intensity factor
-    const estimatedKwh = input.monthlyElectricityBill * 1.5; // conversion factor
-    score += (estimatedKwh * 12 * 0.4) / input.familySize; // 0.4 kg CO2 per kWh
+  /**
+   * Calculates annual per-capita electricity emissions (kg CO2)
+   */
+  static getElectricityEmissions(monthlyBill: number, familySize: number): number {
+    // Standard utility rate (~$0.15/kWh) yields approx 6.67 kWh per unit.
+    // Using 6.0 as a conservative, realistic factor.
+    const estimatedKwh = monthlyBill * 6.0;
+    return Math.round((estimatedKwh * 12 * 0.4) / familySize); // 0.4 kg CO2 per kWh intensity
+  }
+
+  /**
+   * Calculates carbon footprint estimate from form inputs.
+   */
+  static calculateScore(input: AssessmentFormInput): number {
+    const diet = CarbonService.getDietEmissions(input.dietPreference);
+    const transport = CarbonService.getTransportEmissions(input.vehicleType, input.weeklyTravelDistance);
+    const electricity = CarbonService.getElectricityEmissions(input.monthlyElectricityBill, input.familySize);
 
     // Return final footprint in tons of CO2 (rounded to 2 decimal places)
-    return Math.round((score / 1000) * 100) / 100;
+    return Math.round(((diet + transport + electricity) / 1000) * 100) / 100;
   }
 }

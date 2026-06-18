@@ -12,12 +12,13 @@
 
 ## Challenge Workflow
 
-1. Select Challenge
+1. Select Challenge (Targeted to the highest emission category)
 2. Complete Activity
-3. Submit Evidence
-4. AI Verification
-5. Points Awarded
-6. Dashboard Updated
+3. Submit Verification (User logs textual notes [min 20, max 500 chars] describing completion in Modal)
+4. Verification logged in local storage verification history
+5. Points Awarded (Green points accumulated in local dashboard metrics ONLY after valid submission)
+6. Rewards unlocked (Standings and badge unlocks updated based on new points levels)
+7. Dashboard Updated
 
 ---
 
@@ -36,7 +37,7 @@
 Challenge
 → Verification
 → Green Points
-→ Badge Unlock
+→ Tier Transitions & Badges
 → Progress Tracking
 
 ---

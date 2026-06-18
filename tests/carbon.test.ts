@@ -15,9 +15,9 @@ describe("CarbonService", () => {
     
     // Diet: 1700 kg CO2
     // Transport: 150 * 52 * 0.1 = 780 kg CO2
-    // Electricity: (100 * 1.5 * 12 * 0.4) / 2 = 360 kg CO2
-    // Total = 1700 + 780 + 360 = 2840 kg CO2 = 2.84 tons
-    expect(score).toBe(2.84);
+    // Electricity: (100 * 6.0 * 12 * 0.4) / 2 = 1440 kg CO2
+    // Total = 1700 + 780 + 1440 = 3920 kg CO2 = 3.92 tons
+    expect(score).toBe(3.92);
   });
 
   it("should calculate correct carbon score for vegan with no vehicle", () => {
@@ -33,8 +33,8 @@ describe("CarbonService", () => {
 
     // Diet: 1500 kg CO2
     // Transport: 0
-    // Electricity: (50 * 1.5 * 12 * 0.4) / 1 = 360 kg CO2
-    // Total = 1500 + 0 + 360 = 1860 kg CO2 = 1.86 tons
-    expect(score).toBe(1.86);
+    // Electricity: (50 * 6.0 * 12 * 0.4) / 1 = 1440 kg CO2
+    // Total = 1500 + 0 + 1440 = 2940 kg CO2 = 2.94 tons
+    expect(score).toBe(2.94);
   });
 });

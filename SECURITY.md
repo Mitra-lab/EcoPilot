@@ -20,7 +20,9 @@ Row Level Security (RLS)
 
 Zod schema enforcement is applied on all boundary entries (`src/lib/validations.ts`):
 - **Carbon Assessment Form**: Ensures integer family counts and positive utility bills.
+- **AI Coach Recommendation Request**: Enforces schema validation (`coachRequestSchema`) on API input payloads to verify numeric bounds and correct grades.
 - **Challenge Submissions**: Enforces structured text and URLs.
+- **Verification Notes Form**: Validates notes description limits (min 20, max 500 characters) via `verificationNotesSchema` to prevent empty/uninformative submissions.
 - **File Upload Metadata**: Enforces size, MIME-types, and headers.
 
 ---

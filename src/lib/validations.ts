@@ -49,3 +49,27 @@ export const fileUploadMetadataSchema = z.object({
 export type AssessmentFormInput = z.infer<typeof assessmentSchema>;
 export type ChallengeSubmissionInput = z.infer<typeof challengeSubmissionSchema>;
 export type FileUploadMetadataInput = z.infer<typeof fileUploadMetadataSchema>;
+
+// AI Coach Request Schema
+export const coachRequestSchema = z.object({
+  carbonScore: z.number().nonnegative(),
+  dietEmissions: z.number().nonnegative(),
+  travelEmissions: z.number().nonnegative(),
+  electricityEmissions: z.number().nonnegative(),
+  grade: z.enum(["A+", "A", "B", "C", "D"]),
+});
+
+export type CoachRequestInput = z.infer<typeof coachRequestSchema>;
+
+// Verification Notes Schema
+export const verificationNotesSchema = z.object({
+  challengeName: z.string().min(1, "Challenge name is required"),
+  notes: z
+    .string()
+    .min(20, "Verification notes must be at least 20 characters")
+    .max(500, "Verification notes must not exceed 500 characters"),
+});
+
+export type VerificationNotesInput = z.infer<typeof verificationNotesSchema>;
+
+

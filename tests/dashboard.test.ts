@@ -3,29 +3,29 @@ import { DietPreference, VehicleType } from "../src/lib/constants";
 
 describe("Dashboard Service Tests", () => {
   describe("Sustainability Rating (Grades)", () => {
-    it("should award A+ for scores <= 1.5", () => {
-      expect(DashboardService.getSustainabilityRating(0.8)).toBe("A+");
-      expect(DashboardService.getSustainabilityRating(1.5)).toBe("A+");
+    it("should award A+ for scores <= 2.0 (Exceptional sustainability)", () => {
+      expect(DashboardService.getSustainabilityRating(1.2)).toBe("A+");
+      expect(DashboardService.getSustainabilityRating(2.0)).toBe("A+");
     });
 
-    it("should award A for scores > 1.5 and <= 3.0", () => {
-      expect(DashboardService.getSustainabilityRating(1.6)).toBe("A");
-      expect(DashboardService.getSustainabilityRating(3.0)).toBe("A");
+    it("should award A for scores > 2.0 and <= 3.5 (Strong sustainability)", () => {
+      expect(DashboardService.getSustainabilityRating(2.1)).toBe("A");
+      expect(DashboardService.getSustainabilityRating(3.5)).toBe("A");
     });
 
-    it("should award B for scores > 3.0 and <= 5.0", () => {
-      expect(DashboardService.getSustainabilityRating(3.1)).toBe("B");
-      expect(DashboardService.getSustainabilityRating(5.0)).toBe("B");
+    it("should award B for scores > 3.5 and <= 5.5 (Good but improvable)", () => {
+      expect(DashboardService.getSustainabilityRating(3.6)).toBe("B");
+      expect(DashboardService.getSustainabilityRating(5.5)).toBe("B");
     });
 
-    it("should award C for scores > 5.0 and <= 8.0", () => {
-      expect(DashboardService.getSustainabilityRating(5.1)).toBe("C");
-      expect(DashboardService.getSustainabilityRating(8.0)).toBe("C");
+    it("should award C for scores > 5.5 and <= 8.5 (Significant improvement opportunities)", () => {
+      expect(DashboardService.getSustainabilityRating(5.6)).toBe("C");
+      expect(DashboardService.getSustainabilityRating(8.5)).toBe("C");
     });
 
-    it("should award D for scores > 8.0", () => {
-      expect(DashboardService.getSustainabilityRating(8.1)).toBe("D");
-      expect(DashboardService.getSustainabilityRating(20.0)).toBe("D");
+    it("should award D for scores > 8.5 (High environmental impact)", () => {
+      expect(DashboardService.getSustainabilityRating(8.6)).toBe("D");
+      expect(DashboardService.getSustainabilityRating(25.0)).toBe("D");
     });
   });
 

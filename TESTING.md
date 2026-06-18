@@ -4,7 +4,7 @@
 
 ### Unit and Integration Testing
 - **Framework**: Jest with SWC compiler transformation (`jest.config.js`).
-- **Target**: Pure helper functions, math logic (`src/services/carbon.ts`), rating calculations (`src/services/dashboard.ts`), and validator schemas (`src/lib/validations.ts`).
+- **Target**: Pure helper functions, math logic (`src/services/carbon.ts`), AI prompt logic and parsers (`src/services/ai.ts`), challenge generation (`src/services/challenge.ts`), rating calculations (`src/services/dashboard.ts`), validator schemas (`src/lib/validations.ts`), verification flows (`src/services/verification.ts`), and rewards tier structures (`src/services/rewards.ts`).
 
 ### UI Component Testing
 - **Framework**: React Testing Library with `@testing-library/react` and `jest-environment-jsdom`.
@@ -36,10 +36,31 @@ npm run test:e2e
 - ✓ Valid carbon calculations for combinations of travel distances, diets, and energy bills (`tests/carbon.test.ts`).
 - ✓ Null / negative bounds handler behavior and edge case inputs (`tests/assessment.test.ts`).
 - ✓ Zod schema rejection on missing inputs or empty submissions (`tests/assessment.test.ts`).
+- ✓ Realism Sprint Scenarios: Balanced lifestyle, Heavy commuter, Vegetarian household, High electricity usage, and Large family per-capita scaling (`tests/assessment.test.ts`).
 
 ### Dashboard Metrics & Conversions
 - ✓ Letter grade allocation based on carbon score levels (`tests/dashboard.test.ts`).
 - ✓ Data conversions from form payloads into categorized chart segments (`tests/dashboard.test.ts`).
+
+### AI Coach Recommendations
+- ✓ Prompt generation validation with formatted carbon data parameters (`tests/ai.test.ts`).
+- ✓ Recommendation parse validation (JSON parsing, code-fence striping, field verification) (`tests/ai.test.ts`).
+- ✓ Local fallback recommendation engine matching highest emission source category (`tests/ai.test.ts`).
+
+### Weekly Habits & Challenges
+- ✓ Category matching verification ensuring user's highest emission source is correctly identified (`tests/challenge.test.ts`).
+- ✓ Dynamic targeted challenge list generation corresponding to impact classification (`tests/challenge.test.ts`).
+- ✓ Point allocations and estimated carbon reduction value verifications (`tests/challenge.test.ts`).
+
+### Verification & Action Audit
+- ✓ Verification notes text validations (min 20, max 500 characters) via Zod (`tests/verification.test.ts`).
+- ✓ Self-verified status mappings and creation parameters (`tests/verification.test.ts`).
+- ✓ Local storage persistence and retrieval log simulation (`tests/verification.test.ts`).
+
+### Rewards & Achievement Standings
+- ✓ Tier names transition triggers based on points bounds (`tests/rewards.test.ts`).
+- ✓ Progress calculation to the next standing levels and target offsets (`tests/rewards.test.ts`).
+- ✓ Badge unlocking triggers for first verified action, 3 challenges, 100 green points, and grades (`tests/rewards.test.ts`).
 
 ### Form Validations
 - ✓ File metadata size and file format checker bounds.
