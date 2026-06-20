@@ -94,7 +94,9 @@ EcoPilot matters because it breaks down complex environmental footprints into ac
 ---
 
 ## ⚠️ Problem Statement
+
 Most sustainability tools tell users their footprint, but very few help them reduce it. Traditional calculators stop at awareness: they calculate annual emission scores and display complex charts, leaving users feeling uncertain about what concrete steps to take next. 
+EcoPilot was built specifically to help individuals understand, track, and reduce their carbon footprint through personalized insights and simple sustainability actions.
 
 Numbers alone do not change behavior. Users struggle to:
 - Translate raw CO₂ tons into actionable, daily choices.
