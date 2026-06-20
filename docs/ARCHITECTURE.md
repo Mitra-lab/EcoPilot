@@ -22,6 +22,8 @@ src/
 tests/            # Unit & Integration Test Suites
 ```
 
+For a detailed review of all Architectural Decision Records (ADRs), reliability plans, scalability migration roadmaps, and security schemas, see [ARCHITECTURE.md](./ARCHITECTURE.md).
+
 ---
 
 ## 🛠️ Architecture Decision Records (ADR)

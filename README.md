@@ -15,7 +15,7 @@
 ---
 
 ### Dashboard Overview
-![Dashboard Overview](image/Eco-Pilot-screenshots/1781956366584.png)
+![Dashboard Overview](docs/images/dashboard-overview.png)
 
 ---
 
@@ -193,13 +193,13 @@ EcoPilot is built using a clean, separation-of-concerns layout designed to maxim
 
 To review specific technical details, architecture records, security practices, and testing logs, consult the comprehensive documentation files below:
 
-- [ARCHITECTURE.md](./ARCHITECTURE.md) — Architectural Decision Records (ADRs), system layout, reliability strategies, and scalability plans.
-- [CODE_QUALITY.md](./CODE_QUALITY.md) — Type-safety guidelines, service organization, error recovery patterns, and validation strategies.
-- [ACCESSIBILITY.md](./ACCESSIBILITY.md) — Semantic structures, WCAG contrast details, keyboard navigation setups, and responsive design goals.
-- [SECURITY.md](./SECURITY.md) — Secret management rules, payload parsing limits, and prompt isolation details.
-- [TESTING.md](./TESTING.md) — Automated coverage summaries, test configurations, and test suite commands.
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md) — Architectural Decision Records (ADRs), system layout, reliability strategies, and scalability plans.
+- [CODE_QUALITY.md](docs/CODE_QUALITY.md) — Type-safety guidelines, service organization, error recovery patterns, and validation strategies.
+- [ACCESSIBILITY.md](docs/ACCESSIBILITY.md) — Semantic structures, WCAG contrast details, keyboard navigation setups, and responsive design goals.
+- [SECURITY.md](docs/SECURITY.md) — Secret management rules, payload parsing limits, and prompt isolation details.
+- [TESTING.md](docs/TESTING.md) — Automated coverage summaries, test configurations, and test suite commands.
 
-For a detailed review of all Architectural Decision Records (ADRs), reliability plans, scalability migration roadmaps, and security schemas, see [ARCHITECTURE.md](./ARCHITECTURE.md).
+For a detailed review of all Architectural Decision Records (ADRs), reliability plans, scalability migration roadmaps, and security schemas, see [ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ---
 
@@ -236,27 +236,27 @@ graph TD
 ## 📸 Screenshots
 
 ### Landing Page
-![Landing Page Hero](image/Eco-Pilot-screenshots/1781956137046.png)
-![Landing Page Features](image/Eco-Pilot-screenshots/1781956145234.png)
-![Landing Page How It Works](image/Eco-Pilot-screenshots/1781956300738.png)
+![Landing Page Hero](docs/images/landing-page-hero.png)
+![Landing Page Features](docs/images/landing-page-features.png)
+![Landing Page How It Works](docs/images/landing-page-how-it-works.png)
 
 ### Assessment Flow
-![Carbon Footprint Assessment Form](image/Eco-Pilot-screenshots/1781956324791.png)
+![Carbon Footprint Assessment Form](docs/images/assessment-workflow.png)
 
 ### Dashboard Overview
-![Dashboard Overview](image/Eco-Pilot-screenshots/1781956366584.png)
+![Dashboard Overview](docs/images/dashboard-overview.png)
 
 ### AI Sustainability Coach
-![AI Sustainability Coach](image/Eco-Pilot-screenshots/1781956383167.png)
+![AI Sustainability Coach](docs/images/ai-sustainability-coach.png)
 
 ### Weekly Habit Challenges
-![Weekly Challenges](image/Eco-Pilot-screenshots/1781956402799.png)
+![Weekly Challenges](docs/images/weekly-challenges.png)
 
 ### Verification Workflow
-![Verification Workflow](image/README/1781957214581.png)
+![Verification Workflow](docs/images/verification-workflow.png)
 
 ### Rewards & Achievements
-![Rewards & Achievements](image/Eco-Pilot-screenshots/1781956434491.png)
+![Rewards & Achievements](docs/images/rewards-achievements.png)
 
 ---
 
@@ -298,7 +298,7 @@ graph TD
 ---
 
 ## 🚀 Deployment
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment steps on Vercel and environment production keys configuration.
+See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed deployment steps on Vercel and environment production keys configuration.
 
 ---
 
@@ -341,7 +341,7 @@ The scoring engine computes per-capita CO₂ footprint scores based on:
 - **Photo & OCR Evidence Verification**: Integrate Gemini Multimodal API to verify photo uploads and utility bills.
 - **Supabase PostgreSQL Persistence**: Fully connect Auth and RLS policies for global leaderboards.
 - **Community Teams**: Group challenges and collective carbon offset trackers.
-- See [ROADMAP.md](./ROADMAP.md) for additional release timelines.
+- See [ROADMAP.md](docs/ROADMAP.md) for additional release timelines.
 
 ---
 
@@ -355,7 +355,7 @@ The scoring engine computes per-capita CO₂ footprint scores based on:
 ---
 
 ## 🛠️ Architecture Decisions (ADR)
-Detailed architectural decision records can be reviewed in [ARCHITECTURE.md](./ARCHITECTURE.md):
+Detailed architectural decision records can be reviewed in [ARCHITECTURE.md](docs/ARCHITECTURE.md):
 - **ADR 1**: Client `localStorage` chosen for offline resilience and zero cold-start latency.
 - **ADR 2**: Fallback recommendations engine implemented for absolute service reliability.
 - **ADR 3**: Optional Gemini API key dependency to make evaluation accessible for reviewers.

@@ -1,17 +1,15 @@
 # EcoPilot Repository Audit Report
 
-This report documents the final quality assurance audit conducted on the EcoPilot repository documents, screenshot assets, relative paths, and terminology.
-
 ## Links Checked
 
 The following markdown relative paths were checked and verified to resolve to valid files:
-- [x] `./ARCHITECTURE.md` (Resolves correctly in README.md, FINAL_SUBMISSION_REPORT.md, etc.)
-- [x] `./CODE_QUALITY.md` (Resolves correctly in README.md)
-- [x] `./ACCESSIBILITY.md` (Resolves correctly in README.md)
-- [x] `./SECURITY.md` (Resolves correctly in README.md)
-- [x] `./TESTING.md` (Resolves correctly in README.md)
-- [x] `./DEPLOYMENT.md` (Resolves correctly in README.md)
-- [x] `./ROADMAP.md` (Resolves correctly in README.md)
+- [x] `./ARCHITECTURE.md` (Resolves correctly in docs/ folder)
+- [x] `./CODE_QUALITY.md` (Resolves correctly in docs/ folder)
+- [x] `./ACCESSIBILITY.md` (Resolves correctly in docs/ folder)
+- [x] `./SECURITY.md` (Resolves correctly in docs/ folder)
+- [x] `./TESTING.md` (Resolves correctly in docs/ folder)
+- [x] `./DEPLOYMENT.md` (Resolves correctly in docs/ folder)
+- [x] `./ROADMAP.md` (Resolves correctly in docs/ folder)
 
 The following external URLs were verified:
 - Live Vercel Application: https://eco-pilot-snowy.vercel.app
@@ -20,15 +18,15 @@ The following external URLs were verified:
 ## Screenshots Verified
 
 All embedded screenshots exist under the target paths in the repository and render correctly:
-- [x] `image/Eco-Pilot-screenshots/1781956137046.png` (Landing Page Hero)
-- [x] `image/Eco-Pilot-screenshots/1781956145234.png` (Landing Page Features)
-- [x] `image/Eco-Pilot-screenshots/1781956300738.png` (Landing Page How It Works)
-- [x] `image/Eco-Pilot-screenshots/1781956324791.png` (Assessment Flow)
-- [x] `image/Eco-Pilot-screenshots/1781956366584.png` (Dashboard Overview)
-- [x] `image/Eco-Pilot-screenshots/1781956383167.png` (AI Sustainability Coach)
-- [x] `image/Eco-Pilot-screenshots/1781956402799.png` (Weekly Challenges)
-- [x] `image/README/1781957214581.png` (Verification Workflow)
-- [x] `image/Eco-Pilot-screenshots/1781956434491.png` (Rewards & Achievements)
+- [x] `docs/images/landing-page-hero.png` (Landing Page Hero)
+- [x] `docs/images/landing-page-features.png` (Landing Page Features)
+- [x] `docs/images/landing-page-how-it-works.png` (Landing Page How It Works)
+- [x] `docs/images/assessment-workflow.png` (Assessment Flow)
+- [x] `docs/images/dashboard-overview.png` (Dashboard Overview)
+- [x] `docs/images/ai-sustainability-coach.png` (AI Sustainability Coach)
+- [x] `docs/images/weekly-challenges.png` (Weekly Challenges)
+- [x] `docs/images/verification-workflow.png` (Verification Workflow)
+- [x] `docs/images/rewards-achievements.png` (Rewards & Achievements)
 
 ## Documentation Verified
 
