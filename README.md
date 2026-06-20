@@ -2,40 +2,79 @@
 
 > AI-Powered Sustainability Guidance for Everyday Actions
 
-EcoPilot is a sustainability guidance platform that helps users transition from footprint awareness to verified sustainable habits. It focuses on driving action, verification, and habit formation rather than just displaying environmental data.
+## Live Demo
+
+🔗 [https://eco-pilot-snowy.vercel.app](https://eco-pilot-snowy.vercel.app)
+
+## Source Code
+
+🔗 [https://github.com/Mitra-lab/EcoPilot](https://github.com/Mitra-lab/EcoPilot)
+
+---
+
+### Dashboard Overview
+![Dashboard Overview](image/Eco-Pilot-screenshots/1781956366584.png)
+
+---
+
+## ⚡ Quick Evaluation Flow
+
+1. **Complete the Carbon Assessment**: Fill out the assessment with household details.
+2. **Review your Sustainability Dashboard**: View proportional emissions breakdown charts and grades.
+3. **Explore AI Sustainability Recommendations**: Examine personalized sustainability guidance using a local recommendation engine with optional Gemini 3.5 Flash enhancement.
+4. **Complete a Personalized Weekly Challenge**: Select custom challenges aligned with your highest footprint categories.
+5. **Submit Verification Notes**: Provide a written log of your actions (minimum 20 characters) to verify completion.
+6. **Earn Green Points and Achievements**: Accumulate points, level up standing tiers, and unlock badges.
+
+---
+
+> [!NOTE]
+> EcoPilot is a sustainability guidance platform focused on helping users understand, reduce, and improve their environmental impact through measurable actions, built with Next.js 15, TypeScript, and Tailwind CSS.
 
 ---
 
 ## 📊 Measurable Quality Metrics
-- **48 Passing Tests**: 100% test coverage across core scoring, AI parsing, weekly challenges, verification notes, and rewards tier calculations.
+- **61 Automated Tests Passing**: Comprehensive unit & integration test coverage across scoring, challenges, and rewards logic.
+- **Unit & Integration Test Coverage Across Core Features**: Solid regression protection for key calculations and state transitions.
 - **TypeScript Strict Mode**: Fully strongly-typed codebase with zero implicit `any` definitions.
 - **Zod Validation**: Strict runtime schema enforcement for all user input forms and API requests.
-- **AI Fallback System**: Seamless failover to a local rule-based heuristic recommendation engine if the Gemini API is offline.
+- **AI Fallback System**: Seamless failover to a local rule-based heuristic recommendation engine if the Gemini API is offline or unconfigured.
 - **Responsive UI**: Sleek dark-themed layout tailored with custom HSL values and styled for mobile, tablet, and desktop screens.
 - **Production Build Verified**: Confirmed compile and optimization targets with zero warnings.
 
 ---
 
 ## 📖 Table of Contents
-1. [Executive Summary](#-executive-summary)
-2. [Problem Statement](#-problem-statement)
-3. [Why EcoPilot](#-why-ecopilot)
+1. [Project Overview](#-project-overview)
+2. [Why EcoPilot Matters](#-why-ecopilot-matters)
+3. [Problem Statement](#-problem-statement)
 4. [Solution Overview](#-solution-overview)
 5. [Key Features](#-key-features)
-6. [User Journey](#-user-journey)
-7. [Technology Stack](#-technology-stack)
-8. [Architecture Highlights](#-architecture-highlights)
-9. [AI Integration Strategy](#-ai-integration-strategy)
-10. [Testing Summary](#-testing-summary)
-11. [Security Controls](#-security-controls)
-12. [Deployment Guide](#-deployment-guide)
-13. [Future Roadmap](#-future-roadmap)
-14. [Architecture Decisions](#-architecture-decisions)
+6. [Application Workflow](#-application-workflow)
+7. [Architecture](#-architecture)
+8. [Architecture Diagram](#-architecture-diagram)
+9. [Screenshots](#-screenshots)
+10. [Technology Stack](#-technology-stack)
+11. [Local Setup](#-local-setup)
+12. [Deployment](#-deployment)
+13. [AI Recommendation Engine](#-ai-recommendation-engine)
+14. [Sustainability Scoring Engine](#-sustainability-scoring-engine)
+15. [Verification & Rewards System](#-verification--rewards-system)
+16. [Future Roadmap](#-future-roadmap)
+17. [Future Enhancements](#-future-enhancements)
+18. [Architecture Decisions](#-architecture-decisions)
 
 ---
 
-## ⚡ Executive Summary
-EcoPilot is a sustainability habit-building platform. Rather than acting as a simple carbon calculator that leaves users feeling overwhelmed with data, EcoPilot structures a gamified action loop: estimating household footprint, obtaining personalized AI-driven recommendation plans, completing targeted weekly challenges, verifying physical progress with written logs, and unlocking achievements.
+## ⚡ Project Overview
+EcoPilot is designed to walk the user through an integrated pipeline: estimating household carbon footprint, obtaining personalized AI-driven habit improvements, adopting target weekly challenges, verifying physical completion, and compiling verified sustainability rewards.
+
+---
+
+## 🌍 Why EcoPilot Matters
+Climate change is driven by collective human activity, yet individuals often feel powerless to make a difference. Traditional carbon calculators leave users overwhelmed with global emissions data without showing them how their daily routines contribute. 
+
+EcoPilot matters because it breaks down complex environmental footprints into achievable, bite-sized tasks. By guiding users through small, structured behavioral changes (like thermostat optimization, reducing red meat, or active commuting) and holding them accountability through verification, EcoPilot fosters genuine habit formation. When multiplied across households, these small actions drive measurable, cumulative carbon reductions.
 
 ---
 
@@ -47,18 +86,10 @@ Standard carbon footprint calculators stop at awareness. They calculate annual e
 
 ---
 
-## 🌟 Why EcoPilot
-Unlike standard carbon calculators, EcoPilot bridges the gap between **knowing** and **doing**:
-- **Verification Over Clicking**: Users cannot earn points simply by checking a box; they must submit completion logs that undergo verification check boundaries.
-- **Targeted Priority**: Instead of overwhelming users with generic lists, challenges specifically target the user's highest footprint source (electricity, transportation, or diet).
-- **Graceful Resiliency**: It works with or without API credentials, ensuring a perfect user experience under any network conditions.
-
----
-
 ## 💡 Solution Overview
-EcoPilot coordinates footprint assessments with action-planning:
+EcoPilot bridges the awareness-to-action gap through:
 1. **Interactive Assessment**: Calculates annual per-capita emissions.
-2. **AI Sustainability Coach**: Generates targeted guidance powered by Gemini.
+2. **AI Sustainability Coach**: Generates personalized sustainability guidance using a local recommendation engine with optional Gemini 3.5 Flash enhancement.
 3. **Actionable Challenges**: Weekly activities linked to the user's primary emission source.
 4. **Verification Timelines**: Written completion logs that are validated before points are awarded.
 5. **Achievement Badges**: Progress-tracked tiers (Eco Starter to Planet Guardian) and dynamic unlocked badges.
@@ -67,15 +98,15 @@ EcoPilot coordinates footprint assessments with action-planning:
 
 ## ✨ Key Features
 - **Carbon Assessment Wizard**: 1-minute wizard assessing household factors with automatic per-capita scaling.
-- **AI Recommendation Engine**: Gemini-powered recommendations categorizing actions by difficulty, impact, and expected CO₂ savings.
+- **AI Recommendation Engine**: Localized recommendation templates with Gemini-powered personalization overlays categorizing actions by difficulty, impact, and expected CO₂ savings.
 - **Weekly Habits Checklist**: Targeted challenges for electricity conservation, clean transit, and vegetarian eating.
 - **Audit Logs & History**: Self-verification modal enforcing character limits (min 20) with a history timeline.
 - **Rewards System**: Gamified standings showing points milestones and badge lockers.
 
 ---
 
-## 🔄 User Journey
-1. **Landing Page**: Judge/user reads value proposition and enters the platform.
+## 🔄 Application Workflow
+1. **Landing Page**: User reads the value proposition and enters the platform.
 2. **Onboarding Assessment**: Inputs family size, electricity bill, transit distance, vehicle engine, and diet.
 3. **Analytics Dashboard**: Reviews proportional emissions charts, grades, and streaks.
 4. **AI Coach Guidance**: Interacts with the coach to study custom impact recommendations.
@@ -85,66 +116,168 @@ EcoPilot coordinates footprint assessments with action-planning:
 
 ---
 
+## 🏗️ Architecture
+EcoPilot is built using a clean, separation-of-concerns layout:
+- **Presentation Layer**: Built with Next.js 15, TypeScript, Tailwind CSS, and shadcn/ui components. Presentation is strictly decoupled from business logic.
+- **Business Logic Layer**: Centralized under `src/services/` (e.g., `carbon.ts`, `rewards.ts`, `challenge.ts`, `verification.ts`) for easier testing and maintenance.
+- **Data Validation**: Strict runtime Zod schema parsing for all user payloads, forms, and environment structures.
+- **State & Persistence**: Dynamic `localStorage`-backed engine simulating database behaviors to ensure mock-free resilience across page reloads.
+
+For a detailed review of all Architectural Decision Records (ADRs), reliability plans, scalability migration roadmaps, and security schemas, see [ARCHITECTURE.md](./ARCHITECTURE.md).
+
+---
+
+## 📊 Architecture Diagram
+
+The reliability strategy of the platform utilizes serverless coach routes with client fallback routing:
+
+```mermaid
+graph TD
+    A[User Completes Assessment] --> B{Gemini API Key Configured?}
+    B -- Yes --> C[Call Serverless Route /api/coach]
+    B -- No --> D[Generate Local Heuristic Guidelines]
+    C --> E{API Call Succeeds?}
+    E -- Yes --> F[Display Customized AI Coach Cards]
+    E -- No --> G[Trigger Fallback recommendations & Warning Log]
+    G --> H[Display Heuristic Guidelines]
+    D --> H
+```
+
+---
+
+## 📸 Screenshots
+
+### Landing Page
+![Landing Page Hero](image/Eco-Pilot-screenshots/1781956137046.png)
+![Landing Page Features](image/Eco-Pilot-screenshots/1781956145234.png)
+![Landing Page How It Works](image/Eco-Pilot-screenshots/1781956300738.png)
+
+### Assessment Flow
+![Carbon Footprint Assessment Form](image/Eco-Pilot-screenshots/1781956324791.png)
+
+### Dashboard Overview
+![Dashboard Overview](image/Eco-Pilot-screenshots/1781956366584.png)
+
+### AI Sustainability Coach
+![AI Sustainability Coach](image/Eco-Pilot-screenshots/1781956383167.png)
+
+### Weekly Habit Challenges
+![Weekly Challenges](image/Eco-Pilot-screenshots/1781956402799.png)
+
+### Verification Workflow
+![Verification Workflow](image/README/1781957214581.png)
+
+### Rewards & Achievements
+![Rewards & Achievements](image/Eco-Pilot-screenshots/1781956434491.png)
+
+---
+
 ## 💻 Technology Stack
 - **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript (Strict Mode)
 - **Styling**: Tailwind CSS & vanilla CSS variables
 - **State & Persistence**: LocalStorage simulated persistence API
-- **AI Model**: Gemini 2.5 Flash
+- **AI Layer**: Local Recommendation Engine + Optional Gemini 3.5 Flash Integration
 - **Testing**: Jest (Unit/Integration) and Playwright (E2E framework ready)
 - **Validation**: Zod (Runtime Schema Validation)
 
 ---
 
-## 🏗️ Architecture Highlights
-EcoPilot is designed with a strict **Separation of Concerns**:
-- **Decoupled Business Logic**: No business logic is placed inside UI presentation files. All math calculations, recommendations parsing, verification validations, and badge rules reside under `src/services/` (e.g. `carbon.ts`, `rewards.ts`, `challenge.ts`, `verification.ts`).
-- **Resilient Offline Cache**: The application uses a storage-backed service layer mimicking database state behaviors. If database connections are offline, the user experience continues unimpeded.
+## ⚙️ Local Setup
+
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Configure Environment Variables**:
+   Create a `.env.local` file:
+   ```env
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+
+3. **Start Development Server**:
+   ```bash
+   npm run dev
+   ```
+
+4. **Verify TypeScript & Build**:
+   ```bash
+   npx tsc --noEmit
+   npm run build
+   ```
 
 ---
 
-## 🤖 AI Integration & Personalization Strategy
-- **Gemini 2.5 Flash API**: EcoPilot uses a local recommendation engine by default to generate high-quality personalized sustainability recommendations. When a `GEMINI_API_KEY` is configured, the application optionally calls server-side Gemini endpoints (`src/app/api/coach/route.ts`) to enhance recommendation quality.
-- **Safe JSON Constraints**: Enforces structured JSON output formats using prompt templating.
-- **Failover Engine & Personalization Rules**: A local heuristic engine matches the user's highest footprint source. If Gemini is unavailable or not configured, it generates high-quality fallback recommendations according to strict personalization constraints (e.g. Vegans never receive Meat-Free Monday advice; users without vehicles are never advised to reduce driving; low electricity users are prompted to maintain active habits).
+## 🚀 Deployment
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment steps on Vercel and environment production keys configuration.
 
 ---
 
-## 🧪 Testing Summary
-All core functions are tested via automated Jest test suites:
-- `tests/carbon.test.ts`: Footprint math logic and per-capita distribution calculations.
-- `tests/assessment.test.ts`: Validation boundary values and input schema checks.
-- `tests/dashboard.test.ts`: Rating calibration ranges and conversion data models.
-- `tests/ai.test.ts`: Prompt formatting and fallback suggestions engine.
-- `tests/challenge.test.ts`: Targeted weekly challenge assignment and scoring.
-- `tests/verification.test.ts`: Notes validation (20-500 chars) and log history.
-- `tests/rewards.test.ts`: Tier boundary triggers and achievement badge unlocks.
-- `tests/landing.test.tsx`: Landing page headers and redirect routing logic.
+## 🤖 AI Recommendation Engine
+
+### AI Sustainability Coach
+
+#### Architecture
+```text
+Local Recommendation Engine
+↓
+Optional Gemini 3.5 Flash Integration
+```
+
+- **Local Recommendation Engine**: Works completely offline without any API keys, performing rule-based heuristic recommendations tailored to user profile details (e.g. Diet Preference, Vehicle Type, Travel Distance, Electricity Bill limits).
+- **Optional Gemini 3.5 Flash Integration**: If `process.env.GEMINI_API_KEY` is unconfigured, undefined, or empty, the application immediately uses the local recommendation engine without initiating network requests to Gemini, preventing network latency and 403 Forbidden errors. Fallback behavior is intentional, and the production deployment currently operates safely without Gemini configuration.
 
 ---
 
-## 🔒 Security Controls
-- **Runtime Validation**: Form submissions are parsed by Zod validator schemas before calculation.
-- **Prompt Isolation**: Environmental parameters are strictly formatted into prompts on the server, isolating users from writing raw text directly to the AI prompt stream.
-- **Secret Isolation**: Private API keys are stored in server environment files (`.env.local`) and never bundled into the client-side JavaScript.
+## 🧮 Sustainability Scoring Engine
+The scoring engine computes per-capita CO₂ footprint scores based on:
+- **Electricity Usage**: Per-capita scaling based on monthly bills, electricity rates, and household family size.
+- **Transportation**: Proportional engine mapping weekly miles against engine fuel categories (Gasoline, Diesel, Hybrid, Electric, or None).
+- **Diet preferences**: Emission multipliers representing food production footprints from Meat Lover down to Vegan.
 
 ---
 
-## 🚀 Deployment Guide
-See [DEPLOYMENT.md](file:///c:/Users/mitra/Documents/Prompt_Wars_Project/EcoPilot/DEPLOYMENT.md) for detailed deployment steps on Vercel and environment production keys configuration.
+## 🏅 Verification & Rewards System
+- **Written Log Verification**: Enforces textual submissions detailing how the challenge was performed (minimum 20 characters) before granting rewards.
+- **Tier Standings**: Calculates points ranges across standing levels:
+  - Eco Starter (0-100 Points)
+  - Green Explorer (101-250 Points)
+  - Eco Champion (251-500 Points)
+  - Planet Guardian (501+ Points)
+- **Badge Locker**: Tracks and unlocks 5 unique achievement badges based on points milestones, verification count, and assessment grades.
 
 ---
 
 ## 🗺️ Future Roadmap
-- **Photo Evidence Verification**: Integrate Gemini Multimodal API to verify photo uploads and utility bills.
-- **Supabase Cloud Sync**: Integrate database tables with Row Level Security (RLS) policies.
-- **Neighborhood Leaderboards**: Shared apartment carbon offset challenges.
+- **Photo & OCR Evidence Verification**: Integrate Gemini Multimodal API to verify photo uploads and utility bills.
+- **Supabase PostgreSQL Persistence**: Fully connect Auth and RLS policies for global leaderboards.
+- **Community Teams**: Group challenges and collective carbon offset trackers.
+- See [ROADMAP.md](./ROADMAP.md) for additional release timelines.
+
+---
+
+## 🚀 Future Enhancements
+- **Cloud Persistence**: Sync local progress to cloud tables to ensure accessibility across devices.
+- **User Accounts**: Create multi-user household profiles to synchronize domestic footprint tracking.
+- **AI-Powered Verification**: Deploy vision-model audits verifying image uploads (like recycling bins or transit receipts).
+- **Community Challenges**: Team-based sustainability goals and cooperative offset tasks.
+- **Sustainability Analytics**: Track month-over-month carbon savings with advanced comparative charts.
 
 ---
 
 ## 🛠️ Architecture Decisions (ADR)
-Detailed architectural decision records can be reviewed in [ARCHITECTURE.md](file:///c:/Users/mitra/Documents/Prompt_Wars_Project/EcoPilot/ARCHITECTURE.md):
+Detailed architectural decision records can be reviewed in [ARCHITECTURE.md](./ARCHITECTURE.md):
 - **ADR 1**: Client `localStorage` chosen for offline resilience and zero cold-start latency.
 - **ADR 2**: Fallback recommendations engine implemented for absolute service reliability.
-- **ADR 3**: Optional Gemini API key dependency to make evaluation accessible for judges.
-- **ADR 4**: No Authentication barrier in MVP to allow immediate 30-second judge evaluations.
+- **ADR 3**: Optional Gemini API key dependency to make evaluation accessible for reviewers.
+- **ADR 4**: No Authentication barrier in MVP to allow immediate 30-second reviewer evaluations.
+
+---
+
+## Try EcoPilot
+
+Experience personalized sustainability guidance:
+
+🔗 [https://eco-pilot-snowy.vercel.app](https://eco-pilot-snowy.vercel.app)
+
