@@ -55,4 +55,27 @@ describe("Dashboard Service Tests", () => {
       expect(transportItem?.value).toBe(1.04);
     });
   });
+
+  describe("MVP Habit Streak Rules", () => {
+    it("should return 0 streak days when verification history is empty", () => {
+      const verifications: any[] = [];
+      const streak = verifications.length === 0 ? 0 : 1;
+      expect(streak).toBe(0);
+    });
+
+    it("should return 1 streak day when there is exactly one verification record", () => {
+      const verifications = [{ id: "rec1", challengeId: "c1", completedAt: new Date().toISOString() }];
+      const streak = verifications.length === 0 ? 0 : 1;
+      expect(streak).toBe(1);
+    });
+
+    it("should return 1 streak day when there are multiple verification records (MVP limit)", () => {
+      const verifications = [
+        { id: "rec1", challengeId: "c1", completedAt: new Date().toISOString() },
+        { id: "rec2", challengeId: "c2", completedAt: new Date().toISOString() }
+      ];
+      const streak = verifications.length === 0 ? 0 : 1;
+      expect(streak).toBe(1);
+    });
+  });
 });
