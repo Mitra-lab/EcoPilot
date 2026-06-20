@@ -1,5 +1,5 @@
 import { ai, DEFAULT_MODEL } from "@/lib/gemini";
-import { DietPreference, VehicleType } from "@/lib/constants";
+import { DietPreference, VehicleType, GEMINI_TIMEOUT_MS } from "@/lib/constants";
 import { Recommendation } from "./recommendation-types";
 import { buildCoachPrompt } from "./prompt-builder";
 import { parseRecommendationsResponse } from "./recommendation-parser";
@@ -118,7 +118,7 @@ export class AIService {
 
       const generatePromise = model.generateContent(prompt);
       const timeoutPromise = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error("Gemini API request timed out")), 8000)
+        setTimeout(() => reject(new Error("Gemini API request timed out")), GEMINI_TIMEOUT_MS)
       );
 
       const result = await Promise.race([generatePromise, timeoutPromise]);

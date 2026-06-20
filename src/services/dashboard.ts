@@ -1,4 +1,5 @@
 import { AssessmentFormInput } from "@/lib/validations";
+import { CHART_COLORS } from "@/lib/constants";
 import { CarbonService } from "./carbon";
 
 export interface DashboardChartData {
@@ -28,9 +29,9 @@ export class DashboardService {
     const electricityEmissions = CarbonService.getElectricityEmissions(input.monthlyElectricityBill, input.familySize);
 
     return [
-      { name: "Diet", value: Math.round((dietEmissions / 1000) * 100) / 100, color: "#10b981" },
-      { name: "Transport", value: Math.round((travelEmissions / 1000) * 100) / 100, color: "#3b82f6" },
-      { name: "Electricity", value: Math.round((electricityEmissions / 1000) * 100) / 100, color: "#f59e0b" },
+      { name: "Diet", value: Math.round((dietEmissions / 1000) * 100) / 100, color: CHART_COLORS.diet },
+      { name: "Transport", value: Math.round((travelEmissions / 1000) * 100) / 100, color: CHART_COLORS.transport },
+      { name: "Electricity", value: Math.round((electricityEmissions / 1000) * 100) / 100, color: CHART_COLORS.electricity },
     ];
   }
 }

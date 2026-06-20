@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { ChallengeService, UserChallenge } from "@/services/challenge";
 import { VerificationService, VerificationRecord } from "@/services/verification";
+import { CarbonService } from "@/services/carbon";
 import { VerificationModal } from "./VerificationModal";
 import { ChallengeCard } from "./ChallengeCard";
 import { ChallengeProgress } from "./ChallengeProgress";
@@ -30,32 +31,21 @@ export function ChallengeList({
   const [activeChallenge, setActiveChallenge] = useState<UserChallenge | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Compute category emissions for generator
-  const diet = React.useMemo(() => {
-    return {
-      vegan: 1500,
-      vegetarian: 1700,
-      pescatarian: 2000,
-      balanced: 2500,
-      meat_lover: 3300,
-    }[input.dietPreference] || 2500;
-  }, [input.dietPreference]);
+  // Compute category emissions via CarbonService (single source of truth)
+  const diet = React.useMemo(
+    () => CarbonService.getDietEmissions(input.dietPreference),
+    [input.dietPreference]
+  );
 
-  const travel = React.useMemo(() => {
-    const travelFactor = {
-      none: 0,
-      electric: 0.05,
-      hybrid: 0.1,
-      gasoline_small: 0.17,
-      gasoline_large: 0.27,
-      diesel: 0.22,
-    }[input.vehicleType] || 0;
-    return Math.round(input.weeklyTravelDistance * 52 * travelFactor);
-  }, [input.vehicleType, input.weeklyTravelDistance]);
+  const travel = React.useMemo(
+    () => CarbonService.getTransportEmissions(input.vehicleType, input.weeklyTravelDistance),
+    [input.vehicleType, input.weeklyTravelDistance]
+  );
 
-  const electricity = React.useMemo(() => {
-    return Math.round((input.monthlyElectricityBill * 6.0 * 12 * 0.4) / input.familySize);
-  }, [input.monthlyElectricityBill, input.familySize]);
+  const electricity = React.useMemo(
+    () => CarbonService.getElectricityEmissions(input.monthlyElectricityBill, input.familySize),
+    [input.monthlyElectricityBill, input.familySize]
+  );
 
   const calculatePoints = React.useCallback((items: UserChallenge[]) => {
     const total = items.reduce((acc, curr) => (curr.status === VerificationStatus.VERIFIED ? acc + curr.greenPoints : acc), 0);

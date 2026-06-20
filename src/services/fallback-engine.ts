@@ -1,4 +1,4 @@
-import { DietPreference, VehicleType } from "@/lib/constants";
+import { DietPreference, VehicleType, HIGH_ELECTRICITY_BILL_THRESHOLD, HIGH_ELECTRICITY_EMISSIONS_THRESHOLD } from "@/lib/constants";
 import { Recommendation } from "./recommendation-types";
 
 /**
@@ -23,7 +23,7 @@ export function getFallbackRecommendations(
       familySize && familySize > 0
         ? (monthlyElectricityBill || 0) / familySize
         : (monthlyElectricityBill || 0);
-    const isHighUsage = perCapitaElectricity > 50 || electricityEmissions > 1200;
+    const isHighUsage = perCapitaElectricity > HIGH_ELECTRICITY_BILL_THRESHOLD || electricityEmissions > HIGH_ELECTRICITY_EMISSIONS_THRESHOLD;
 
     if (isHighUsage) {
       return [
