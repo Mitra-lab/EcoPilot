@@ -9,6 +9,115 @@ interface AssessmentFormProps {
   isLoading?: boolean;
 }
 
+// ---------------------------------------------------------------------------
+// Reusable sub-components
+// ---------------------------------------------------------------------------
+
+interface FormFieldProps {
+  id: string;
+  label: string;
+  name: string;
+  value: number | string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  min?: number;
+  error?: string;
+  disabled?: boolean;
+}
+
+/** Renders a labelled numeric input field with optional error message. */
+function FormField({
+  id,
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  min,
+  error,
+  disabled,
+}: FormFieldProps) {
+  return (
+    <div>
+      <label
+        htmlFor={id}
+        className="block text-sm font-semibold text-[hsl(var(--foreground))] mb-2"
+      >
+        {label}
+      </label>
+      <input
+        type="number"
+        id={id}
+        name={name}
+        value={value}
+        onChange={onChange}
+        min={min}
+        placeholder={placeholder}
+        className={`w-full px-4 py-2 border rounded-md bg-[hsl(var(--card))] text-[hsl(var(--foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))] ${
+          error ? "border-[hsl(var(--destructive))]" : "border-[hsl(var(--border))]"
+        }`}
+        disabled={disabled}
+      />
+      {error && (
+        <p className="text-xs text-[hsl(var(--destructive))] mt-1">{error}</p>
+      )}
+    </div>
+  );
+}
+
+interface FormSelectProps {
+  id: string;
+  label: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  children: React.ReactNode;
+  error?: string;
+  disabled?: boolean;
+}
+
+/** Renders a labelled select dropdown with optional error message. */
+function FormSelect({
+  id,
+  label,
+  name,
+  value,
+  onChange,
+  children,
+  error,
+  disabled,
+}: FormSelectProps) {
+  return (
+    <div>
+      <label
+        htmlFor={id}
+        className="block text-sm font-semibold text-[hsl(var(--foreground))] mb-2"
+      >
+        {label}
+      </label>
+      <select
+        id={id}
+        name={name}
+        value={value}
+        onChange={onChange}
+        className={`w-full px-4 py-2 border rounded-md bg-[hsl(var(--card))] text-[hsl(var(--foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))] ${
+          error ? "border-[hsl(var(--destructive))]" : "border-[hsl(var(--border))]"
+        }`}
+        disabled={disabled}
+      >
+        {children}
+      </select>
+      {error && (
+        <p className="text-xs text-[hsl(var(--destructive))] mt-1">{error}</p>
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Main form component
+// ---------------------------------------------------------------------------
+
 export function AssessmentForm({ onSubmit, isLoading = false }: AssessmentFormProps) {
   const [formData, setFormData] = useState<Partial<AssessmentFormInput>>({
     familySize: 1,
@@ -24,18 +133,11 @@ export function AssessmentForm({ onSubmit, isLoading = false }: AssessmentFormPr
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type } = e.target;
-    let parsedValue: any = value;
+    const parsedValue: string | number =
+      type === "number" ? (value === "" ? "" : Number(value)) : value;
 
-    if (type === "number") {
-      parsedValue = value === "" ? "" : Number(value);
-    }
+    setFormData((prev) => ({ ...prev, [name]: parsedValue }));
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: parsedValue,
-    }));
-
-    // Clear error for field on change
     if (errors[name]) {
       setErrors((prev) => {
         const next = { ...prev };
@@ -68,158 +170,75 @@ export function AssessmentForm({ onSubmit, isLoading = false }: AssessmentFormPr
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Family Size */}
-      <div>
-        <label
-          htmlFor="familySize"
-          className="block text-sm font-semibold text-[hsl(var(--foreground))] mb-2"
-        >
-          Family Size
-        </label>
-        <input
-          type="number"
-          id="familySize"
-          name="familySize"
-          value={formData.familySize ?? ""}
-          onChange={handleChange}
-          min={1}
-          placeholder="e.g. 2"
-          className={`w-full px-4 py-2 border rounded-md bg-[hsl(var(--card))] text-[hsl(var(--foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))] ${
-            errors.familySize ? "border-[hsl(var(--destructive))]" : "border-[hsl(var(--border))]"
-          }`}
-          disabled={isLoading}
-        />
-        {errors.familySize && (
-          <p className="text-xs text-[hsl(var(--destructive))] mt-1">
-            {errors.familySize}
-          </p>
-        )}
-      </div>
+      <FormField
+        id="familySize"
+        label="Family Size"
+        name="familySize"
+        value={formData.familySize ?? ""}
+        onChange={handleChange}
+        min={1}
+        placeholder="e.g. 2"
+        error={errors.familySize}
+        disabled={isLoading}
+      />
 
-      {/* Monthly Electricity Bill */}
-      <div>
-        <label
-          htmlFor="monthlyElectricityBill"
-          className="block text-sm font-semibold text-[hsl(var(--foreground))] mb-2"
-        >
-          Monthly Electricity Bill ($ / Currency Units)
-        </label>
-        <input
-          type="number"
-          id="monthlyElectricityBill"
-          name="monthlyElectricityBill"
-          value={formData.monthlyElectricityBill ?? ""}
-          onChange={handleChange}
-          min={0}
-          placeholder="e.g. 100"
-          className={`w-full px-4 py-2 border rounded-md bg-[hsl(var(--card))] text-[hsl(var(--foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))] ${
-            errors.monthlyElectricityBill
-              ? "border-[hsl(var(--destructive))]"
-              : "border-[hsl(var(--border))]"
-          }`}
-          disabled={isLoading}
-        />
-        {errors.monthlyElectricityBill && (
-          <p className="text-xs text-[hsl(var(--destructive))] mt-1">
-            {errors.monthlyElectricityBill}
-          </p>
-        )}
-      </div>
+      <FormField
+        id="monthlyElectricityBill"
+        label="Monthly Electricity Bill ($ / Currency Units)"
+        name="monthlyElectricityBill"
+        value={formData.monthlyElectricityBill ?? ""}
+        onChange={handleChange}
+        min={0}
+        placeholder="e.g. 100"
+        error={errors.monthlyElectricityBill}
+        disabled={isLoading}
+      />
 
-      {/* Vehicle Type */}
-      <div>
-        <label
-          htmlFor="vehicleType"
-          className="block text-sm font-semibold text-[hsl(var(--foreground))] mb-2"
-        >
-          Vehicle Type
-        </label>
-        <select
-          id="vehicleType"
-          name="vehicleType"
-          value={formData.vehicleType}
-          onChange={handleChange}
-          className={`w-full px-4 py-2 border rounded-md bg-[hsl(var(--card))] text-[hsl(var(--foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))] ${
-            errors.vehicleType ? "border-[hsl(var(--destructive))]" : "border-[hsl(var(--border))]"
-          }`}
-          disabled={isLoading}
-        >
-          <option value={VehicleType.NONE}>No Vehicle (Public Transport/Walk)</option>
-          <option value={VehicleType.ELECTRIC}>Electric Vehicle (EV)</option>
-          <option value={VehicleType.HYBRID}>Hybrid Vehicle</option>
-          <option value={VehicleType.GASOLINE_SMALL}>Gasoline Vehicle (Small / Compact)</option>
-          <option value={VehicleType.GASOLINE_LARGE}>Gasoline Vehicle (Large / SUV)</option>
-          <option value={VehicleType.DIESEL}>Diesel Vehicle</option>
-        </select>
-        {errors.vehicleType && (
-          <p className="text-xs text-[hsl(var(--destructive))] mt-1">
-            {errors.vehicleType}
-          </p>
-        )}
-      </div>
+      <FormSelect
+        id="vehicleType"
+        label="Vehicle Type"
+        name="vehicleType"
+        value={formData.vehicleType ?? VehicleType.NONE}
+        onChange={handleChange}
+        error={errors.vehicleType}
+        disabled={isLoading}
+      >
+        <option value={VehicleType.NONE}>No Vehicle (Public Transport/Walk)</option>
+        <option value={VehicleType.ELECTRIC}>Electric Vehicle (EV)</option>
+        <option value={VehicleType.HYBRID}>Hybrid Vehicle</option>
+        <option value={VehicleType.GASOLINE_SMALL}>Gasoline Vehicle (Small / Compact)</option>
+        <option value={VehicleType.GASOLINE_LARGE}>Gasoline Vehicle (Large / SUV)</option>
+        <option value={VehicleType.DIESEL}>Diesel Vehicle</option>
+      </FormSelect>
 
-      {/* Weekly Travel Distance */}
-      <div>
-        <label
-          htmlFor="weeklyTravelDistance"
-          className="block text-sm font-semibold text-[hsl(var(--foreground))] mb-2"
-        >
-          Weekly Travel Distance (km)
-        </label>
-        <input
-          type="number"
-          id="weeklyTravelDistance"
-          name="weeklyTravelDistance"
-          value={formData.weeklyTravelDistance ?? ""}
-          onChange={handleChange}
-          min={0}
-          placeholder="e.g. 150"
-          className={`w-full px-4 py-2 border rounded-md bg-[hsl(var(--card))] text-[hsl(var(--foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))] ${
-            errors.weeklyTravelDistance
-              ? "border-[hsl(var(--destructive))]"
-              : "border-[hsl(var(--border))]"
-          }`}
-          disabled={isLoading}
-        />
-        {errors.weeklyTravelDistance && (
-          <p className="text-xs text-[hsl(var(--destructive))] mt-1">
-            {errors.weeklyTravelDistance}
-          </p>
-        )}
-      </div>
+      <FormField
+        id="weeklyTravelDistance"
+        label="Weekly Travel Distance (km)"
+        name="weeklyTravelDistance"
+        value={formData.weeklyTravelDistance ?? ""}
+        onChange={handleChange}
+        min={0}
+        placeholder="e.g. 150"
+        error={errors.weeklyTravelDistance}
+        disabled={isLoading}
+      />
 
-      {/* Diet Preference */}
-      <div>
-        <label
-          htmlFor="dietPreference"
-          className="block text-sm font-semibold text-[hsl(var(--foreground))] mb-2"
-        >
-          Diet Preference
-        </label>
-        <select
-          id="dietPreference"
-          name="dietPreference"
-          value={formData.dietPreference}
-          onChange={handleChange}
-          className={`w-full px-4 py-2 border rounded-md bg-[hsl(var(--card))] text-[hsl(var(--foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))] ${
-            errors.dietPreference ? "border-[hsl(var(--destructive))]" : "border-[hsl(var(--border))]"
-          }`}
-          disabled={isLoading}
-        >
-          <option value={DietPreference.BALANCED}>Balanced (Meat & Veggies)</option>
-          <option value={DietPreference.MEAT_LOVER}>Meat Lover (High meat consumption)</option>
-          <option value={DietPreference.PESCATARIAN}>Pescatarian (Fish & Veggies)</option>
-          <option value={DietPreference.VEGETARIAN}>Vegetarian (No meat)</option>
-          <option value={DietPreference.VEGAN}>Vegan (Plant-based only)</option>
-        </select>
-        {errors.dietPreference && (
-          <p className="text-xs text-[hsl(var(--destructive))] mt-1">
-            {errors.dietPreference}
-          </p>
-        )}
-      </div>
+      <FormSelect
+        id="dietPreference"
+        label="Diet Preference"
+        name="dietPreference"
+        value={formData.dietPreference ?? DietPreference.BALANCED}
+        onChange={handleChange}
+        error={errors.dietPreference}
+        disabled={isLoading}
+      >
+        <option value={DietPreference.BALANCED}>Balanced (Meat &amp; Veggies)</option>
+        <option value={DietPreference.MEAT_LOVER}>Meat Lover (High meat consumption)</option>
+        <option value={DietPreference.PESCATARIAN}>Pescatarian (Fish &amp; Veggies)</option>
+        <option value={DietPreference.VEGETARIAN}>Vegetarian (No meat)</option>
+        <option value={DietPreference.VEGAN}>Vegan (Plant-based only)</option>
+      </FormSelect>
 
-      {/* Submit Button */}
       <button
         type="submit"
         disabled={isLoading}

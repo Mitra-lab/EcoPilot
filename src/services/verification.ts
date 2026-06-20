@@ -1,6 +1,16 @@
 import { VerificationStatus } from "@/lib/constants";
 import { verificationNotesSchema, VerificationNotesInput } from "@/lib/validations";
 
+/** Minimal shape of a persisted challenge entry read from localStorage. */
+interface StoredChallenge {
+  id: string;
+  title: string;
+  status?: string;
+  completed?: boolean;
+  greenPoints: number;
+  createdAt?: string;
+}
+
 export interface VerificationRecord {
   id: string;
   challengeId: string;
@@ -14,8 +24,6 @@ export interface VerificationRecord {
 export class VerificationService {
   /**
    * Validates verification notes payload using Zod.
-   * @param input Data properties including challenge name and notes description
-   * @returns Boolean indicating safe parsing success
    */
   static validateNotes(input: VerificationNotesInput): boolean {
     const parsed = verificationNotesSchema.safeParse(input);
@@ -24,11 +32,6 @@ export class VerificationService {
 
   /**
    * Generates a new verification record and manages state transitions.
-   * @param challengeId Target challenge identity key
-   * @param challengeTitle Challenge name string
-   * @param notes Textual completion notes entered by the user
-   * @param points Reward value coordinates
-   * @returns Generated and verified verification record
    */
   static createVerificationRecord(
     challengeId: string,
@@ -55,7 +58,6 @@ export class VerificationService {
 
   /**
    * Retrieves verification history from local storage.
-   * @returns List of all verified submissions
    */
   static getHistory(): VerificationRecord[] {
     if (typeof window === "undefined") return [];
@@ -70,8 +72,6 @@ export class VerificationService {
 
   /**
    * Saves verification record and updates local storage history list.
-   * @param record New verified log event
-   * @returns Updated list of history records
    */
   static saveRecord(record: VerificationRecord): VerificationRecord[] {
     if (typeof window === "undefined") return [];
@@ -93,7 +93,7 @@ export class VerificationService {
       const history = this.getHistory();
 
       let updated = false;
-      challenges.forEach((ch: any) => {
+      (challenges as StoredChallenge[]).forEach((ch) => {
         const isVerified = ch.status === "verified" || ch.completed === true;
         if (isVerified) {
           const hasRecord = history.some((r: VerificationRecord) => r.challengeId === ch.id);

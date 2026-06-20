@@ -41,7 +41,7 @@ export default function AssessmentPage() {
       setTimeout(() => {
         router.push("/dashboard");
       }, 1500);
-    } catch (err) {
+    } catch (err: unknown) {
       setError("An unexpected error occurred while calculating your score. Please try again.");
     } finally {
       setLoading(false);

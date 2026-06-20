@@ -27,8 +27,6 @@ export interface TierInfo {
 export class RewardsService {
   /**
    * Translates point score into tier names
-   * @param points Accumulated green points score
-   * @returns String name of target sustainability tier
    */
   static getTier(points: number): string {
     if (points <= 100) return "Eco Starter";
@@ -39,8 +37,6 @@ export class RewardsService {
 
   /**
    * Calculates points progress toward the next tier
-   * @param points Accumulated green points score
-   * @returns TierInfo with current, next and progression boundaries
    */
   static getTierProgress(points: number): TierInfo {
     const tier = this.getTier(points);
@@ -71,10 +67,6 @@ export class RewardsService {
 
   /**
    * Evaluates and returns unlocked achievement badges
-   * @param points Current green points total
-   * @param completedVerifications History list of completed challenges
-   * @param sustainabilityGrade Current letter grade
-   * @returns List of all achievements and unlock states
    */
   static checkAchievements(
     points: number,

@@ -68,6 +68,29 @@ This document tracks completed features, deployment states, and future roadmap d
 
 ---
 
+## Code Quality Optimization Sprint
+
+- [x] Split `src/services/challenge.ts` into focused modules
+  - [x] `challenge-types.ts` — UserChallenge interface
+  - [x] `diet-challenges.ts` — Diet challenge definitions
+  - [x] `transport-challenges.ts` — Transport challenge definitions
+  - [x] `electricity-challenges.ts` — Electricity challenge definitions
+  - [x] `challenge-service.ts` — ChallengeService orchestrator
+  - [x] `challenge.ts` converted to barrel re-export
+- [x] Split `src/services/ai.ts` into focused modules
+  - [x] `recommendation-types.ts` — Recommendation + RawRecommendationItem types
+  - [x] `prompt-builder.ts` — Gemini prompt construction
+  - [x] `recommendation-parser.ts` — JSON response parser (any removed)
+  - [x] `fallback-engine.ts` — Local rule-based fallback engine
+  - [x] `ai-service.ts` — AIService orchestrator class
+  - [x] `ai.ts` converted to barrel re-export
+- [x] Audit and replace all `any` type usages across repository
+- [x] Refactor `AssessmentForm` — extracted `FormField` and `FormSelect` sub-components
+- [x] TypeScript `--noEmit` passes with zero errors
+- [x] All 64 tests passing after refactor
+
+---
+
 ## Future Roadmap
 
 ### Cloud Persistence

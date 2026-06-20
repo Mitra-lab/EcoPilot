@@ -74,7 +74,7 @@ export function ChallengeList({
             if (ch.status === undefined) {
               return {
                 ...ch,
-                status: ch.completed ? VerificationStatus.VERIFIED : "not_started",
+                status: (ch.completed ? VerificationStatus.VERIFIED : "not_started") as UserChallenge["status"],
               };
             }
             return ch;

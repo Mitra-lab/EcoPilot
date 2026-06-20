@@ -41,9 +41,8 @@ export async function POST(request: Request) {
     );
 
     return NextResponse.json({ recommendations });
-  } catch (error) {
-    const err = error instanceof Error ? error : new Error(String(error));
-    console.error("AI Coach route handler error:", err);
+  } catch (error: unknown) {
+    console.error("AI Coach route handler error:", error);
     return NextResponse.json(
       { error: "Failed to generate recommendations due to an internal server error" },
       { status: 500 }
