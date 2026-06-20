@@ -116,7 +116,7 @@ EcoPilot is designed to support users at every step of this journey. The platfor
 ## 💡 Solution Overview
 EcoPilot bridges the awareness-to-action gap through:
 1. **Interactive Assessment**: Decouples and calculates annual per-capita emissions.
-2. **AI Sustainability Coach**: Delivers personalized recommendations powered by customized intelligence templates.
+2. 2. **AI Sustainability Coach**: Delivers personalized insights and carbon reduction recommendations tailored to the user's footprint profile, helping them identify simple actions that reduce emissions.
 3. **Actionable Challenges**: Instigates target weekly activities directly linked to the user's primary emission sources.
 4. **Verification Timelines**: Enforces accountability through written logs validated before reward points are issued.
 5. **Achievement Badges**: Inspires progression across standings (Eco Starter to Planet Guardian) and dynamic unlocked badges.
@@ -159,7 +159,7 @@ By focusing on a recurring cycle of action, verification, and positive reinforce
 ## ✨ Key Features
 - **Assessment (Understand footprint)**: 1-minute wizard assessing household factors with automatic per-capita scaling to help you understand your carbon footprint.
 - **Dashboard (Track footprint)**: Interactive dashboard to track emissions from diet, transportation, and electricity usage over time.
-- **AI Coach (Personalized insights)**: Receive personalized insights and recommendations powered by customized intelligence templates and Gemini AI.
+- **AI Coach (Personalized Insights)**: Receive personalized insights and carbon reduction recommendations tailored to your diet, transportation, and electricity usage patterns.
 - **Challenges (Simple actions)**: Complete simple sustainability actions through targeted weekly challenges directly linked to your highest emission sources.
 - **Rewards (Encourage reduction behavior)**: Gamified standings, points milestones, and badge lockers to encourage and sustain carbon reduction behavior.
 
