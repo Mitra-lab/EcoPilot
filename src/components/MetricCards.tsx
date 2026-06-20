@@ -11,7 +11,7 @@ export function MetricCards({
   carbonScore,
   rating,
   points = 120,
-  streak = 0,
+  streak = 3,
 }: MetricCardsProps) {
   const ratingColors = {
     "A+": "text-emerald-500 border-emerald-500/20 bg-emerald-500/5",
@@ -20,10 +20,6 @@ export function MetricCards({
     "C": "text-amber-500 border-amber-500/20 bg-amber-500/5",
     "D": "text-rose-500 border-rose-500/20 bg-rose-500/5",
   }[rating] || "text-[hsl(var(--foreground))]";
-
-  /* Future enhancement:
-     Implement true consecutive-day streak tracking using verification timestamps and user persistence. */
-  const streakUnit = streak === 1 ? "day" : "days";
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -55,7 +51,7 @@ export function MetricCards({
         </span>
         <div className="flex items-baseline mt-2 gap-1">
           <span className="text-3xl font-extrabold text-[hsl(var(--foreground))]">🔥 {streak}</span>
-          <span className="text-xs font-medium text-[hsl(var(--muted-foreground))]">{streakUnit}</span>
+          <span className="text-xs font-medium text-[hsl(var(--muted-foreground))]">days</span>
         </div>
       </div>
 
