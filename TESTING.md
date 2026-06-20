@@ -70,20 +70,20 @@ npm run test:e2e
 
 ## Final Test Suite Summary
 
-The test suite consists of 8 separate test suites covering 48 individual unit/integration scenarios. All tests run cleanly.
+The test suite consists of 8 separate test suites covering 61 individual unit/integration scenarios. All tests run cleanly.
 
 ### Test Suites Result
 ```text
 PASS tests/rewards.test.ts
-PASS tests/dashboard.test.ts
 PASS tests/challenge.test.ts
-PASS tests/carbon.test.ts
-PASS tests/ai.test.ts
+PASS tests/dashboard.test.ts
 PASS tests/verification.test.ts
+PASS tests/ai.test.ts
+PASS tests/carbon.test.ts
 PASS tests/assessment.test.ts
 PASS tests/landing.test.tsx
 
 Test Suites: 8 passed, 8 total
-Tests:       48 passed, 48 total
+Tests:       61 passed, 61 total
 ```
 

@@ -189,7 +189,29 @@ EcoPilot is built using a clean, separation-of-concerns layout designed to maxim
    - *Technical Choice*: Dynamic allocation mapping highest footprint categories to habit cards.
    - *User Benefit*: Encourages consistent habit formation by addressing the user's highest-leverage carbon reductions.
 
+### Engineering Documentation
+
+To review specific technical details, architecture records, security practices, and testing logs, consult the comprehensive documentation files below:
+
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — Architectural Decision Records (ADRs), system layout, reliability strategies, and scalability plans.
+- [CODE_QUALITY.md](./CODE_QUALITY.md) — Type-safety guidelines, service organization, error recovery patterns, and validation strategies.
+- [ACCESSIBILITY.md](./ACCESSIBILITY.md) — Semantic structures, WCAG contrast details, keyboard navigation setups, and responsive design goals.
+- [SECURITY.md](./SECURITY.md) — Secret management rules, payload parsing limits, and prompt isolation details.
+- [TESTING.md](./TESTING.md) — Automated coverage summaries, test configurations, and test suite commands.
+
 For a detailed review of all Architectural Decision Records (ADRs), reliability plans, scalability migration roadmaps, and security schemas, see [ARCHITECTURE.md](./ARCHITECTURE.md).
+
+---
+
+## Solution Architecture
+
+<p align="center">
+  <img src="docs/images/architecture-diagram.png"
+       alt="EcoPilot Architecture Diagram"
+       width="100%">
+</p>
+
+EcoPilot combines sustainability assessment, carbon footprint analysis, personalized AI coaching, challenge verification, and rewards tracking within a lightweight architecture designed for rapid deployment and future cloud scalability.
 
 ---
 

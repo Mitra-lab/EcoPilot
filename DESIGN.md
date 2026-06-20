@@ -477,7 +477,7 @@ Extracts data from uploaded utility bills.
 
 ## AI
 
-* Gemini 2.5 Flash
+* Gemini 3.5 Flash
 
 ---
 
