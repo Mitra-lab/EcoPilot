@@ -1,5 +1,12 @@
 import { DietPreference, VehicleType } from "@/lib/constants";
 import { AssessmentFormInput } from "@/lib/validations";
+import {
+  DIET_EMISSIONS_MAP,
+  VEHICLE_EMISSIONS_FACTOR_MAP,
+  ELECTRICITY_BILL_KWH_FACTOR,
+  ELECTRICITY_CO2_INTENSITY_KG_PER_KWH,
+  MONTHS_PER_YEAR,
+} from "@/constants/emissions";
 
 /**
  * Service for calculating carbon emissions based on user habits.
@@ -8,64 +15,42 @@ import { AssessmentFormInput } from "@/lib/validations";
 export class CarbonService {
   /**
    * Calculates annual diet emissions (kg CO2)
+   * @param diet User's diet preference selection
+   * @returns Estimated annual kg CO2
    */
   static getDietEmissions(diet: DietPreference): number {
-    switch (diet) {
-      case DietPreference.VEGAN:
-        return 1500;
-      case DietPreference.VEGETARIAN:
-        return 1700;
-      case DietPreference.PESCATARIAN:
-        return 2000;
-      case DietPreference.BALANCED:
-        return 2500;
-      case DietPreference.MEAT_LOVER:
-        return 3300;
-      default:
-        return 2500;
-    }
+    return DIET_EMISSIONS_MAP[diet] || DIET_EMISSIONS_MAP[DietPreference.BALANCED];
   }
 
   /**
    * Calculates annual transportation emissions (kg CO2)
+   * @param vehicleType User's vehicle engine classification
+   * @param weeklyDistance Estimated weekly travel distance in kilometers
+   * @returns Estimated annual kg CO2
    */
   static getTransportEmissions(vehicleType: VehicleType, weeklyDistance: number): number {
-    let emissionFactor = 0; // kg CO2 per km
-    switch (vehicleType) {
-      case VehicleType.NONE:
-        emissionFactor = 0;
-        break;
-      case VehicleType.ELECTRIC:
-        emissionFactor = 0.05;
-        break;
-      case VehicleType.HYBRID:
-        emissionFactor = 0.1;
-        break;
-      case VehicleType.GASOLINE_SMALL:
-        emissionFactor = 0.17;
-        break;
-      case VehicleType.GASOLINE_LARGE:
-        emissionFactor = 0.27;
-        break;
-      case VehicleType.DIESEL:
-        emissionFactor = 0.22;
-        break;
-    }
+    const emissionFactor = VEHICLE_EMISSIONS_FACTOR_MAP[vehicleType] !== undefined
+      ? VEHICLE_EMISSIONS_FACTOR_MAP[vehicleType]
+      : 0;
     return Math.round(weeklyDistance * 52 * emissionFactor);
   }
 
   /**
    * Calculates annual per-capita electricity emissions (kg CO2)
+   * @param monthlyBill Estimated monthly electricity cost
+   * @param familySize Total household members
+   * @returns Estimated annual kg CO2 per capita
    */
   static getElectricityEmissions(monthlyBill: number, familySize: number): number {
-    // Standard utility rate (~$0.15/kWh) yields approx 6.67 kWh per unit.
-    // Using 6.0 as a conservative, realistic factor.
-    const estimatedKwh = monthlyBill * 6.0;
-    return Math.round((estimatedKwh * 12 * 0.4) / familySize); // 0.4 kg CO2 per kWh intensity
+    const estimatedKwh = monthlyBill * ELECTRICITY_BILL_KWH_FACTOR;
+    const co2Intensity = ELECTRICITY_CO2_INTENSITY_KG_PER_KWH;
+    return Math.round((estimatedKwh * MONTHS_PER_YEAR * co2Intensity) / familySize);
   }
 
   /**
    * Calculates carbon footprint estimate from form inputs.
+   * @param input Validated user assessment factors
+   * @returns Footprint score in tons of CO2 per year rounded to 2 decimal places
    */
   static calculateScore(input: AssessmentFormInput): number {
     const diet = CarbonService.getDietEmissions(input.dietPreference);
