@@ -18,6 +18,26 @@ interface CarbonBreakdownChartProps {
   data: DashboardChartData[];
 }
 
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: any[];
+}
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    return (
+      <div className="bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-lg p-3 shadow-md text-xs">
+        <p className="font-bold text-[hsl(var(--foreground))] mb-1">{data.name}</p>
+        <p className="text-[hsl(var(--primary))] font-semibold">
+          {data.value.toFixed(2)} tons CO₂/year
+        </p>
+      </div>
+    );
+  }
+  return null;
+};
+
 export function CarbonBreakdownChart({ data }: CarbonBreakdownChartProps) {
   const total = data.reduce((acc, curr) => acc + curr.value, 0);
 
@@ -31,14 +51,7 @@ export function CarbonBreakdownChart({ data }: CarbonBreakdownChartProps) {
             <BarChart data={data} layout="vertical" margin={{ left: -10, right: 10, top: 10, bottom: 10 }}>
               <XAxis type="number" stroke="hsl(var(--muted-foreground))" fontSize={12} />
               <YAxis dataKey="name" type="category" stroke="hsl(var(--muted-foreground))" fontSize={12} width={80} />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: "8px",
-                  color: "hsl(var(--foreground))",
-                }}
-              />
+              <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="value" radius={[0, 4, 4, 0]}>
                 {data.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
@@ -71,14 +84,7 @@ export function CarbonBreakdownChart({ data }: CarbonBreakdownChartProps) {
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: "8px",
-                  color: "hsl(var(--foreground))",
-                }}
-              />
+              <Tooltip content={<CustomTooltip />} />
             </PieChart>
           </ResponsiveContainer>
           <div className="absolute flex flex-col items-center justify-center">

@@ -57,6 +57,11 @@ export const coachRequestSchema = z.object({
   travelEmissions: z.number().nonnegative(),
   electricityEmissions: z.number().nonnegative(),
   grade: z.enum(["A+", "A", "B", "C", "D"]),
+  dietPreference: z.nativeEnum(DietPreference).optional(),
+  vehicleType: z.nativeEnum(VehicleType).optional(),
+  weeklyTravelDistance: z.number().nonnegative().optional(),
+  monthlyElectricityBill: z.number().nonnegative().optional(),
+  familySize: z.number().int().min(1).optional(),
 });
 
 export type CoachRequestInput = z.infer<typeof coachRequestSchema>;

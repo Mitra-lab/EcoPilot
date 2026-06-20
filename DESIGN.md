@@ -657,9 +657,9 @@ Positive User Experience
 
 ---
 
-# 19. Hackathon Alignment
+# 19. Core Platform Alignment
 
-EcoPilot directly addresses:
+EcoPilot directly aligns with the mission to:
 
 "Design a solution that helps individuals understand, track, and reduce their carbon footprint through simple actions and personalized insights."
 

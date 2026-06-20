@@ -14,14 +14,30 @@ export async function POST(request: Request) {
       );
     }
 
-    const { carbonScore, dietEmissions, travelEmissions, electricityEmissions, grade } = result.data;
+    const {
+      carbonScore,
+      dietEmissions,
+      travelEmissions,
+      electricityEmissions,
+      grade,
+      dietPreference,
+      vehicleType,
+      weeklyTravelDistance,
+      monthlyElectricityBill,
+      familySize,
+    } = result.data;
 
     const recommendations = await AIService.generateRecommendations(
       carbonScore,
       dietEmissions,
       travelEmissions,
       electricityEmissions,
-      grade
+      grade,
+      dietPreference,
+      vehicleType,
+      weeklyTravelDistance,
+      monthlyElectricityBill,
+      familySize
     );
 
     return NextResponse.json({ recommendations });

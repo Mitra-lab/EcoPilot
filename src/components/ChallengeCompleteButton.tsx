@@ -15,7 +15,7 @@ export function ChallengeCompleteButton({
   if (status === VerificationStatus.VERIFIED) {
     return (
       <span className="w-full md:w-auto inline-flex justify-center items-center px-4 py-2 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold text-sm">
-        ✓ Self Verified
+        ✓ Verification Submitted
       </span>
     );
   }

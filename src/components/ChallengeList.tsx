@@ -31,25 +31,36 @@ export function ChallengeList({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Compute category emissions for generator
-  const diet = {
-    vegan: 1500,
-    vegetarian: 1700,
-    pescatarian: 2000,
-    balanced: 2500,
-    meat_lover: 3300,
-  }[input.dietPreference] || 2500;
+  const diet = React.useMemo(() => {
+    return {
+      vegan: 1500,
+      vegetarian: 1700,
+      pescatarian: 2000,
+      balanced: 2500,
+      meat_lover: 3300,
+    }[input.dietPreference] || 2500;
+  }, [input.dietPreference]);
 
-  const travelFactor = {
-    none: 0,
-    electric: 0.05,
-    hybrid: 0.1,
-    gasoline_small: 0.17,
-    gasoline_large: 0.27,
-    diesel: 0.22,
-  }[input.vehicleType] || 0;
+  const travel = React.useMemo(() => {
+    const travelFactor = {
+      none: 0,
+      electric: 0.05,
+      hybrid: 0.1,
+      gasoline_small: 0.17,
+      gasoline_large: 0.27,
+      diesel: 0.22,
+    }[input.vehicleType] || 0;
+    return Math.round(input.weeklyTravelDistance * 52 * travelFactor);
+  }, [input.vehicleType, input.weeklyTravelDistance]);
 
-  const travel = Math.round(input.weeklyTravelDistance * 52 * travelFactor);
-  const electricity = Math.round((input.monthlyElectricityBill * 6.0 * 12 * 0.4) / input.familySize);
+  const electricity = React.useMemo(() => {
+    return Math.round((input.monthlyElectricityBill * 6.0 * 12 * 0.4) / input.familySize);
+  }, [input.monthlyElectricityBill, input.familySize]);
+
+  const calculatePoints = React.useCallback((items: UserChallenge[]) => {
+    const total = items.reduce((acc, curr) => (curr.status === VerificationStatus.VERIFIED ? acc + curr.greenPoints : acc), 0);
+    setPoints(total);
+  }, []);
 
   useEffect(() => {
     // Attempt to load weekly challenges status from local storage
@@ -78,16 +89,20 @@ export function ChallengeList({
     }
 
     // Generate new targeted challenges based on emissions breakdown
-    const generated = ChallengeService.generateChallenges(diet, travel, electricity);
+    const generated = ChallengeService.generateChallenges(
+      diet,
+      travel,
+      electricity,
+      input.dietPreference,
+      input.vehicleType,
+      input.weeklyTravelDistance,
+      input.monthlyElectricityBill,
+      input.familySize
+    );
     setChallenges(generated);
     localStorage.setItem("ecopilot_weekly_challenges", JSON.stringify(generated));
     calculatePoints(generated);
-  }, [score, input]);
-
-  const calculatePoints = (items: UserChallenge[]) => {
-    const total = items.reduce((acc, curr) => (curr.status === VerificationStatus.VERIFIED ? acc + curr.greenPoints : acc), 0);
-    setPoints(total);
-  };
+  }, [diet, travel, electricity, calculatePoints, input.dietPreference, input.vehicleType, input.weeklyTravelDistance, input.monthlyElectricityBill, input.familySize]);
 
   const handleOpenVerification = (id: string) => {
     const target = challenges.find((c) => c.id === id);

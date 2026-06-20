@@ -16,7 +16,7 @@ export function AICoachCard({ score, grade, input }: AICoachCardProps) {
   const [error, setError] = useState<string | null>(null);
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
 
-  const fetchRecommendations = async () => {
+  const fetchRecommendations = React.useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -50,6 +50,11 @@ export function AICoachCard({ score, grade, input }: AICoachCardProps) {
           travelEmissions: travel,
           electricityEmissions: electricity,
           grade,
+          dietPreference: input.dietPreference,
+          vehicleType: input.vehicleType,
+          weeklyTravelDistance: input.weeklyTravelDistance,
+          monthlyElectricityBill: input.monthlyElectricityBill,
+          familySize: input.familySize,
         }),
       });
 
@@ -64,11 +69,12 @@ export function AICoachCard({ score, grade, input }: AICoachCardProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [score, grade, input]);
 
   useEffect(() => {
+    // Intentionally call fetchRecommendations when component mounts or parameters change
     fetchRecommendations();
-  }, [score, grade, input]);
+  }, [fetchRecommendations]);
 
   return (
     <div className="bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-xl p-6 shadow-sm mb-8">

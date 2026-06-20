@@ -1,4 +1,5 @@
 import { ChallengeService } from "../src/services/challenge";
+import { DietPreference, VehicleType } from "../src/lib/constants";
 
 describe("ChallengeService Unit Tests", () => {
   describe("Highest Impact Category Mapping", () => {
@@ -18,42 +19,58 @@ describe("ChallengeService Unit Tests", () => {
     });
   });
 
-  describe("Challenge Generation", () => {
-    it("should generate diet challenges if diet is highest", () => {
-      const challenges = ChallengeService.generateChallenges(3000, 1000, 1500);
-      expect(challenges).toHaveLength(3);
-      expect(challenges[0].id).toContain("diet-ch");
-      expect(challenges[0].title).toBe("Meat-Free Monday");
-    });
-
-    it("should generate transport challenges if transport is highest", () => {
-      const challenges = ChallengeService.generateChallenges(1000, 4000, 1500);
-      expect(challenges).toHaveLength(3);
-      expect(challenges[0].id).toContain("trans-ch");
-      expect(challenges[0].title).toBe("Active Commuter");
-    });
-
-    it("should generate electricity challenges if electricity is highest", () => {
-      const challenges = ChallengeService.generateChallenges(1000, 1000, 3000);
-      expect(challenges).toHaveLength(3);
-      expect(challenges[0].id).toContain("elec-ch");
-      expect(challenges[0].title).toBe("Climate Thermostat Optimizer");
-    });
-  });
-
-  describe("Point and Impact Allocations", () => {
-    it("should allocate correct point and impact values for generated challenges", () => {
-      const challenges = ChallengeService.generateChallenges(1000, 1000, 3000);
-      
-      // Target elec-ch-1 points: 75, impactScore: 40
-      const ch1 = challenges.find(c => c.id === "elec-ch-1");
-      expect(ch1?.greenPoints).toBe(75);
-      expect(ch1?.impactScore).toBe(40);
-
-      // Verify completion defaults to false
-      challenges.forEach(ch => {
-        expect(ch.completed).toBe(false);
+  describe("Personalized Challenge Generation", () => {
+    it("should generate Vegan diet challenges and NOT Meat-Free Monday", () => {
+      const chs = ChallengeService.generateChallenges(3000, 1000, 1000, DietPreference.VEGAN);
+      expect(chs[0].title).toBe("Organic Composter");
+      chs.forEach(c => {
+        expect(c.title).not.toContain("Meat-Free");
+        expect(c.title).not.toContain("meat-free");
       });
+    });
+
+    it("should generate Vegetarian diet challenges", () => {
+      const chs = ChallengeService.generateChallenges(3000, 1000, 1000, DietPreference.VEGETARIAN);
+      expect(chs[0].title).toBe("Dairy Reduction Challenge");
+    });
+
+    it("should generate Balanced diet challenges", () => {
+      const chs = ChallengeService.generateChallenges(3000, 1000, 1000, DietPreference.BALANCED);
+      expect(chs[0].title).toBe("Meat-Free Monday");
+    });
+
+    it("should generate Meat Lover diet challenges", () => {
+      const chs = ChallengeService.generateChallenges(3000, 1000, 1000, DietPreference.MEAT_LOVER);
+      expect(chs[0].title).toBe("Red Meat Substitute");
+    });
+
+    it("should generate No Vehicle transit challenges and NOT recommend reducing driving", () => {
+      const chs = ChallengeService.generateChallenges(1000, 3000, 1000, undefined, VehicleType.NONE);
+      expect(chs[0].title).toBe("Walking Goal Target");
+      chs.forEach(c => {
+        expect(c.description).not.toContain("driving");
+        expect(c.description).not.toContain("carpool");
+      });
+    });
+
+    it("should generate Hybrid transit challenges", () => {
+      const chs = ChallengeService.generateChallenges(1000, 3000, 1000, undefined, VehicleType.HYBRID, 100);
+      expect(chs[0].title).toBe("Carpool Coalition");
+    });
+
+    it("should generate Gasoline transit challenges", () => {
+      const chs = ChallengeService.generateChallenges(1000, 3000, 1000, undefined, VehicleType.GASOLINE_SMALL, 100);
+      expect(chs[0].title).toBe("Walk Over Wheels");
+    });
+
+    it("should generate Low Electricity challenges", () => {
+      const chs = ChallengeService.generateChallenges(100, 100, 800, undefined, undefined, undefined, 10, 1);
+      expect(chs[0].title).toBe("Habit Maintainer");
+    });
+
+    it("should generate High Electricity challenges", () => {
+      const chs = ChallengeService.generateChallenges(1000, 1000, 3000, undefined, undefined, undefined, 200, 1);
+      expect(chs[0].title).toBe("AC Runtime Optimizer");
     });
   });
 });

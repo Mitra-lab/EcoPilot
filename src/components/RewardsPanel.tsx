@@ -14,11 +14,14 @@ interface RewardsPanelProps {
 
 export function RewardsPanel({ points, verifications, grade }: RewardsPanelProps) {
   const tierInfo = RewardsService.getTierProgress(points);
-  const achievements = RewardsService.checkAchievements(points, verifications, grade);
+  const achievements = React.useMemo(() => {
+    return RewardsService.checkAchievements(points, verifications, grade);
+  }, [points, verifications, grade]);
 
   useEffect(() => {
+    // Intentionally sync achievements only when points, verifications, or grade changes
     RewardsService.syncSavedAchievements(achievements);
-  }, [points, verifications, grade]);
+  }, [achievements]);
 
   return (
     <div className="bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-xl p-6 shadow-sm mb-8 space-y-8">

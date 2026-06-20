@@ -12,11 +12,11 @@
 
 ## Challenge Workflow
 
-1. Select Challenge (Targeted to the highest emission category)
+1. Personalized Challenge Select (Targeted to highest emission category, aligned with AI recommendations and user profile)
 2. Complete Activity
 3. Submit Verification (User logs textual notes [min 20, max 500 chars] describing completion in Modal)
-4. Verification logged in local storage verification history
-5. Points Awarded (Green points accumulated in local dashboard metrics ONLY after valid submission)
+4. Verification logged in local storage history (Status: Verification Submitted)
+5. Points Awarded (Green points accumulated in local dashboard metrics after valid submission)
 6. Rewards unlocked (Standings and badge unlocks updated based on new points levels)
 7. Dashboard Updated
 

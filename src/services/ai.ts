@@ -1,4 +1,5 @@
 import { ai, DEFAULT_MODEL } from "@/lib/gemini";
+import { DietPreference, VehicleType } from "@/lib/constants";
 
 export interface Recommendation {
   action: string;
@@ -16,13 +17,18 @@ export class AIService {
     dietEmissions: number,
     travelEmissions: number,
     electricityEmissions: number,
-    grade: string
+    grade: string,
+    dietPreference?: DietPreference,
+    vehicleType?: VehicleType,
+    weeklyTravelDistance?: number,
+    monthlyElectricityBill?: number,
+    familySize?: number
   ): string {
     return `You are an AI Sustainability Coach for EcoPilot. Generate 3 highly personalized, actionable recommendations for a user with the following profile:
 - Carbon Score: ${carbonScore} tons CO₂/yr (Sustainability Grade: ${grade})
-- Diet Emissions: ${dietEmissions} kg CO₂/yr
-- Travel Emissions: ${travelEmissions} kg CO₂/yr
-- Electricity Emissions: ${electricityEmissions} kg CO₂/yr
+- Diet Emissions: ${dietEmissions} kg CO₂/yr (Preference: ${dietPreference || "balanced"})
+- Travel Emissions: ${travelEmissions} kg CO₂/yr (Vehicle: ${vehicleType || "none"}, Weekly distance: ${weeklyTravelDistance || 0} km)
+- Electricity Emissions: ${electricityEmissions} kg CO₂/yr (Monthly bill: ${monthlyElectricityBill || 0}, Family size: ${familySize || 1})
 
 Format your response as a valid JSON array of exactly 3 objects. Do not include markdown code fence formatting.
 Example format:
@@ -36,7 +42,7 @@ Example format:
 ]
 
 Ensure impact values are limited to "High", "Medium", or "Low". Difficulty values must be "Easy", "Medium", or "Hard".
-Provide context-specific advice based on their highest emission category.`;
+Provide context-specific advice based on their highest emission category. If the user is Vegan, do NOT recommend reducing meat consumption or Meat-Free Mondays. If they have No Vehicle, do NOT recommend reducing driving or checking tire pressures. If they have Low Electricity usage, recommend maintaining habits and monitoring consumption.`;
   }
 
   /**
@@ -70,76 +76,226 @@ Provide context-specific advice based on their highest emission category.`;
   static getFallbackRecommendations(
     dietEmissions: number,
     travelEmissions: number,
-    electricityEmissions: number
+    electricityEmissions: number,
+    dietPreference?: DietPreference,
+    vehicleType?: VehicleType,
+    weeklyTravelDistance?: number,
+    monthlyElectricityBill?: number,
+    familySize?: number
   ): Recommendation[] {
     // Identify highest emissions category
     const maxVal = Math.max(dietEmissions, travelEmissions, electricityEmissions);
 
+    // 1. Electricity Logic
     if (maxVal === electricityEmissions) {
+      const perCapitaElectricity = familySize && familySize > 0 ? (monthlyElectricityBill || 0) / familySize : (monthlyElectricityBill || 0);
+      const isHighUsage = perCapitaElectricity > 50 || electricityEmissions > 1200;
+
+      if (isHighUsage) {
+        return [
+          {
+            action: "Optimize cooling systems by keeping AC units at an efficient 25°C threshold.",
+            impact: "High",
+            difficulty: "Easy",
+            potentialReduction: "380 kg CO₂/yr",
+          },
+          {
+            action: "Identify and replace energy-intensive old appliances with energy-star certified ones.",
+            impact: "High",
+            difficulty: "Hard",
+            potentialReduction: "500 kg CO₂/yr",
+          },
+          {
+            action: "Audit standby energy drains by utilizing smart power strips for work-from-home setups.",
+            impact: "Medium",
+            difficulty: "Easy",
+            potentialReduction: "150 kg CO₂/yr",
+          },
+        ];
+      } else {
+        return [
+          {
+            action: "Maintain your low-energy household habits and monitor weekly meter readings.",
+            impact: "Low",
+            difficulty: "Easy",
+            potentialReduction: "40 kg CO₂/yr",
+          },
+          {
+            action: "Verify that all phantom loads are eliminated using smart home energy plugs.",
+            impact: "Low",
+            difficulty: "Easy",
+            potentialReduction: "60 kg CO₂/yr",
+          },
+          {
+            action: "Consider sharing your low-consumption strategies with neighbors to drive community reductions.",
+            impact: "Medium",
+            difficulty: "Medium",
+            potentialReduction: "100 kg CO₂/yr",
+          },
+        ];
+      }
+    }
+
+    // 2. Travel Logic
+    if (maxVal === travelEmissions) {
+      if (vehicleType === VehicleType.NONE || (weeklyTravelDistance || 0) <= 0) {
+        return [
+          {
+            action: "Maintain your sustainable vehicle-free lifestyle and prioritize active walking targets.",
+            impact: "Medium",
+            difficulty: "Easy",
+            potentialReduction: "100 kg CO₂/yr",
+          },
+          {
+            action: "Adopt cycling or micro-mobility options for mid-range commutes under 5 km.",
+            impact: "High",
+            difficulty: "Medium",
+            potentialReduction: "250 kg CO₂/yr",
+          },
+          {
+            action: "Opt for electrified train services over short-haul regional flights where possible.",
+            impact: "High",
+            difficulty: "Medium",
+            potentialReduction: "600 kg CO₂/yr",
+          },
+        ];
+      }
+
+      if (vehicleType === VehicleType.HYBRID || vehicleType === VehicleType.ELECTRIC) {
+        return [
+          {
+            action: "Configure hybrid/EV drive modes and coordinate combined multi-stop routes.",
+            impact: "Medium",
+            difficulty: "Easy",
+            potentialReduction: "180 kg CO₂/yr",
+          },
+          {
+            action: "Participate in local carpooling groups to optimize per-seat commuter loads.",
+            impact: "Medium",
+            difficulty: "Easy",
+            potentialReduction: "220 kg CO₂/yr",
+          },
+          {
+            action: "Charge EV units exclusively during off-peak hours using green utility pricing.",
+            impact: "High",
+            difficulty: "Medium",
+            potentialReduction: "400 kg CO₂/yr",
+          },
+        ];
+      }
+
+      // Default Gasoline/Diesel case
       return [
         {
-          action: "Adjust AC/Heating thermostat by 1°C to reduce grid load.",
-          impact: "Medium",
-          difficulty: "Easy",
-          potentialReduction: "250 kg CO₂/yr",
-        },
-        {
-          action: "Transition home light fixtures to high-efficiency LED bulbs.",
+          action: "Shift weekly commutes from solo gasoline driving to public train and bus networks.",
           impact: "High",
           difficulty: "Medium",
+          potentialReduction: "850 kg CO₂/yr",
+        },
+        {
+          action: "Coordinate weekly office commutes via ride-shares or community carpooling.",
+          impact: "Medium",
+          difficulty: "Easy",
+          potentialReduction: "320 kg CO₂/yr",
+        },
+        {
+          action: "Combine scattered weekly errands into one single driving loop to minimize cold starts.",
+          impact: "Low",
+          difficulty: "Easy",
+          potentialReduction: "110 kg CO₂/yr",
+        },
+      ];
+    }
+
+    // 3. Diet Logic (Default / DietEmissions is highest)
+    if (dietPreference === DietPreference.VEGAN) {
+      return [
+        {
+          action: "Minimize local food waste by strictly maintaining meal planning templates.",
+          impact: "Medium",
+          difficulty: "Easy",
+          potentialReduction: "140 kg CO₂/yr",
+        },
+        {
+          action: "Prioritize seasonal, locally-grown agricultural items to cut transport emissions.",
+          impact: "Medium",
+          difficulty: "Medium",
+          potentialReduction: "180 kg CO₂/yr",
+        },
+        {
+          action: "Kickstart a backyard or municipal composting loop for organic food scraps.",
+          impact: "High",
+          difficulty: "Medium",
+          potentialReduction: "300 kg CO₂/yr",
+        },
+      ];
+    }
+
+    if (dietPreference === DietPreference.VEGETARIAN) {
+      return [
+        {
+          action: "Reduce dairy impact by substituting plant-based milks and cheeses.",
+          impact: "High",
+          difficulty: "Medium",
+          potentialReduction: "350 kg CO₂/yr",
+        },
+        {
+          action: "Food waste reduction using planned weekly shopping limits.",
+          impact: "Medium",
+          difficulty: "Easy",
+          potentialReduction: "150 kg CO₂/yr",
+        },
+        {
+          action: "Local sourcing via Community Supported Agriculture to reduce transport miles.",
+          impact: "Medium",
+          difficulty: "Easy",
+          potentialReduction: "190 kg CO₂/yr",
+        },
+      ];
+    }
+
+    if (dietPreference === DietPreference.BALANCED) {
+      return [
+        {
+          action: "Meat-Free Monday planning to introduce plant-based lunch and dinner alternatives.",
+          impact: "High",
+          difficulty: "Easy",
           potentialReduction: "450 kg CO₂/yr",
         },
         {
-          action: "Configure standby power settings and unplug idle electronics.",
-          impact: "Low",
-          difficulty: "Easy",
-          potentialReduction: "80 kg CO₂/yr",
-        },
-      ];
-    }
-
-    if (maxVal === travelEmissions) {
-      return [
-        {
-          action: "Adopt public transit or carpooling for weekly commutes.",
-          impact: "High",
-          difficulty: "Medium",
-          potentialReduction: "800 kg CO₂/yr",
-        },
-        {
-          action: "Plan and combine multi-stop utility trips to minimize mileage.",
+          action: "Food waste reduction by audits of domestic leftovers.",
           impact: "Medium",
-          difficulty: "Easy",
-          potentialReduction: "300 kg CO₂/yr",
-        },
-        {
-          action: "Perform monthly tire inflation checks to optimize fuel efficiency.",
-          impact: "Low",
           difficulty: "Easy",
           potentialReduction: "120 kg CO₂/yr",
         },
+        {
+          action: "Increase plant-based meals by swapping animal proteins for lentils or beans.",
+          impact: "High",
+          difficulty: "Medium",
+          potentialReduction: "500 kg CO₂/yr",
+        },
       ];
     }
 
-    // Default: Diet emissions highest
+    // Default: Meat Lover case
     return [
       {
-        action: "Incorporate at least two dedicated meat-free days into your week.",
-        impact: "Medium",
-        difficulty: "Easy",
-        potentialReduction: "400 kg CO₂/yr",
-      },
-      {
-        action: "Reduce household food waste by using grocery lists and batch cooking.",
-        impact: "Low",
-        difficulty: "Easy",
-        potentialReduction: "150 kg CO₂/yr",
-      },
-      {
-        action: "Shift dinner meals toward plant-based recipes and seasonal vegetables.",
+        action: "Reduce red meat portions in favor of poultry, fish, or vegetable proteins.",
         impact: "High",
         difficulty: "Medium",
-        potentialReduction: "900 kg CO₂/yr",
+        potentialReduction: "750 kg CO₂/yr",
+      },
+      {
+        action: "Replace meals with plant-based options once or twice every week.",
+        impact: "High",
+        difficulty: "Easy",
+        potentialReduction: "350 kg CO₂/yr",
+      },
+      {
+        action: "Meat reduction strategies including portion-control sizing for dinner recipes.",
+        impact: "Medium",
+        difficulty: "Easy",
+        potentialReduction: "250 kg CO₂/yr",
       },
     ];
   }
@@ -152,14 +308,38 @@ Provide context-specific advice based on their highest emission category.`;
     dietEmissions: number,
     travelEmissions: number,
     electricityEmissions: number,
-    grade: string
+    grade: string,
+    dietPreference?: DietPreference,
+    vehicleType?: VehicleType,
+    weeklyTravelDistance?: number,
+    monthlyElectricityBill?: number,
+    familySize?: number
   ): Promise<Recommendation[]> {
+    if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY.trim() === "") {
+      console.info("Gemini API key not configured. Using local recommendation engine.");
+      return this.getFallbackRecommendations(
+        dietEmissions,
+        travelEmissions,
+        electricityEmissions,
+        dietPreference,
+        vehicleType,
+        weeklyTravelDistance,
+        monthlyElectricityBill,
+        familySize
+      );
+    }
+
     const prompt = this.generateCoachPrompt(
       carbonScore,
       dietEmissions,
       travelEmissions,
       electricityEmissions,
-      grade
+      grade,
+      dietPreference,
+      vehicleType,
+      weeklyTravelDistance,
+      monthlyElectricityBill,
+      familySize
     );
 
     try {
@@ -176,7 +356,16 @@ Provide context-specific advice based on their highest emission category.`;
       return this.parseRecommendationsResponse(responseText);
     } catch (error) {
       console.warn("AI recommendations model generation failed. Activating local fallback engine.", error);
-      return this.getFallbackRecommendations(dietEmissions, travelEmissions, electricityEmissions);
+      return this.getFallbackRecommendations(
+        dietEmissions,
+        travelEmissions,
+        electricityEmissions,
+        dietPreference,
+        vehicleType,
+        weeklyTravelDistance,
+        monthlyElectricityBill,
+        familySize
+      );
     }
   }
 
@@ -188,7 +377,6 @@ Provide context-specific advice based on their highest emission category.`;
     evidenceText?: string,
     evidenceFileUrl?: string
   ): Promise<{ status: string; feedback: string }> {
-    // Placeholder signature: Implementation of Gemini prompt to happen in a future sprint
     throw new Error("Method not implemented.");
   }
 }
