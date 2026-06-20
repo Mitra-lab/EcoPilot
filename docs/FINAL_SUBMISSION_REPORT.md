@@ -12,7 +12,7 @@ Traditional carbon footprint calculators stop at awareness. They present users w
 
 EcoPilot solves this by implementing an end-to-end behavior-change framework:
 1. **Interactive Assessment**: Easily captures user factors to estimate household and per-capita footprints.
-2. **Personalized Sustainability Intelligence**: Delivers target action guidelines structured around a user's exact lifestyle profile.
+2. **Personalized Insights**: Delivers target action guidelines structured around a user's exact lifestyle profile.
 3. **Personalized Challenges**: Dynamically assigns weekly challenges targeting the user's highest footprint categories.
 4. **Accountability Loops**: Enforces completion descriptions (minimum 20 characters) and logs them in local history to promote reflective verification.
 5. **Gamification & Rewards**: Motivates sustained improvement through Green Points, progression tiers (Eco Starter to Planet Guardian), and unlocking badges.
@@ -32,7 +32,7 @@ EcoPilot is built on a clean, decoupled architecture:
 - **Business Logic Layer**: Decoupled under `src/services/` (`carbon.ts`, `rewards.ts`, `challenge.ts`, `verification.ts`), ensuring high testability.
 - **State & Persistence**: Simulated databases built on browser `localStorage` ensuring zero cold starts, offline readiness, and immediate execution.
 
-## Personalized Sustainability Intelligence
+## Personalized Insights
 
 EcoPilot employs a hybrid recommendation architecture:
 - **Local Recommendation Engine**: A rule-based client heuristic engine that matches user assessment inputs to custom guidance cards completely offline without requiring any API keys.
@@ -47,7 +47,7 @@ Understand Impact (Assessment)
 ↓
 Identify Highest Emission Source (Data Analytics)
 ↓
-Receive Personalized Guidance (Sustainability Intelligence)
+Receive Personalized Insights
 ↓
 Complete Sustainability Challenges (Action)
 ↓

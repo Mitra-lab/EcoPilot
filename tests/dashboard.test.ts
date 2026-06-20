@@ -55,4 +55,19 @@ describe("Dashboard Service Tests", () => {
       expect(transportItem?.value).toBe(1.04);
     });
   });
+
+  describe("MVP Habit Streak Calculation", () => {
+    it("should return 0 days when there are no verification records", () => {
+      expect(DashboardService.calculateHabitStreak(0)).toBe(0);
+    });
+
+    it("should return 1 day when there is exactly one verification record", () => {
+      expect(DashboardService.calculateHabitStreak(1)).toBe(1);
+    });
+
+    it("should return 1 day when there are multiple verification records", () => {
+      expect(DashboardService.calculateHabitStreak(5)).toBe(1);
+      expect(DashboardService.calculateHabitStreak(10)).toBe(1);
+    });
+  });
 });

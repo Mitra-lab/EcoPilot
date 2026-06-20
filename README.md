@@ -1,8 +1,8 @@
 # EcoPilot 🌍
 
-> AI-Powered Sustainability Guidance for Everyday Actions
+> AI-powered carbon footprint platform that helps users understand, track, and reduce emissions through personalized insights, challenges, and rewards.
 >
-> Helping people transform sustainability awareness into measurable action through personalized guidance, accountability, and habit formation.
+> Helping individuals understand, track, and reduce their carbon footprint through simple actions and personalized insights.
 
 ## Live Demo
 
@@ -11,6 +11,15 @@
 ## Source Code
 
 🔗 [https://github.com/Mitra-lab/EcoPilot](https://github.com/Mitra-lab/EcoPilot)
+
+---
+
+### EcoPilot helps users:
+✓ Understand their carbon footprint
+✓ Track emissions from diet, transportation, and electricity usage
+✓ Receive personalized insights and recommendations
+✓ Complete simple sustainability actions
+✓ Reduce their environmental impact through measurable behavior change
 
 ---
 
@@ -24,7 +33,7 @@
 1. **Open Live Demo**: Access [EcoPilot](https://eco-pilot-snowy.vercel.app) and read the core journey.
 2. **Complete Onboarding Assessment**: Input household factors to generate your initial footprint breakdown.
 3. **Review your Sustainability Dashboard**: View proportional emissions breakdown charts and your initial sustainability grade.
-4. **Explore Personalized Sustainability Intelligence**: Examine customized habit recommendations tailored to your profile (diet, transportation, and utilities).
+4. **Explore Personalized Insights**: Examine customized habit recommendations tailored to your profile (diet, transportation, and utilities).
 5. **Complete a Weekly Challenge**: Adopt a specific, targeted challenge based on your highest emission category.
 6. **Submit Verification Notes**: Provide a written log of your actions (minimum 20 characters) to audit your action.
 7. **Unlock Tiers and Rewards**: Watch your Green Points increase, level up your standing tier, and earn badges.
@@ -63,7 +72,7 @@
 13. [Technology Stack](#-technology-stack)
 14. [Local Setup](#-local-setup)
 15. [Deployment](#-deployment)
-16. [Personalized Sustainability Intelligence](#-personalized-sustainability-intelligence)
+16. [Personalized Insights](#-personalized-insights)
 17. [Sustainability Scoring Engine](#-sustainability-scoring-engine)
 18. [Verification & Rewards System](#-verification--rewards-system)
 19. [Future Roadmap](#-future-roadmap)
@@ -73,7 +82,7 @@
 ---
 
 ## ⚡ Project Overview
-EcoPilot is designed to walk users through an integrated behavioral pipeline: understanding household environmental impact, obtaining personalized sustainability intelligence, adopting targeted weekly challenges, verifying physical completion, and cementing habits through a gamified rewards system.
+EcoPilot is an AI-powered platform that helps individuals understand, track, and reduce their carbon footprint. By providing a clear assessment for carbon footprint awareness, it enables accurate emission tracking and drives emission reduction through personalized recommendations and challenge-based action.
 
 ---
 
@@ -120,7 +129,7 @@ Understand Impact (Assessment)
 ↓
 Identify Highest Emission Source (Data Analytics)
 ↓
-Receive Personalized Guidance (Sustainability Intelligence)
+Receive Personalized Insights
 ↓
 Complete Sustainability Challenges (Action)
 ↓
@@ -136,7 +145,7 @@ By focusing on a recurring cycle of action, verification, and positive reinforce
 ---
 
 ## 🏆 Key Differentiators
-- **Personalized Sustainability Intelligence**: Guidance that adapts dynamically to the user's specific lifestyle profile instead of presenting static tips.
+- **Personalized Insights**: Guidance that adapts dynamically to the user's specific lifestyle profile instead of presenting static tips.
 - **Action-Oriented Direction**: Focuses on immediate, achievable habit shifts rather than abstract macro statistics.
 - **Challenge-Driven Behavior Change**: Breaks down large sustainability goals into bite-sized, weekly milestones.
 - **Verification-Based Accountability**: Enforces writing completion logs to prevent simple "cheap clicks" and promote thoughtful reflection.
@@ -146,11 +155,11 @@ By focusing on a recurring cycle of action, verification, and positive reinforce
 ---
 
 ## ✨ Key Features
-- **Carbon Assessment Wizard**: 1-minute wizard assessing household factors with automatic per-capita scaling.
-- **Personalized Sustainability Intelligence**: Algorithmic recommendation templates with Gemini-powered personalization overlays categorizing actions by difficulty, impact, and expected CO₂ savings.
-- **Weekly Habits Checklist**: Targeted challenges for electricity conservation, clean transit, and vegetarian eating.
-- **Audit Logs & History**: Self-verification modal enforcing character limits (min 20) with a history timeline.
-- **Rewards System**: Gamified standings showing points milestones and badge lockers.
+- **Assessment (Understand footprint)**: 1-minute wizard assessing household factors with automatic per-capita scaling to help you understand your carbon footprint.
+- **Dashboard (Track footprint)**: Interactive dashboard to track emissions from diet, transportation, and electricity usage over time.
+- **AI Coach (Personalized insights)**: Receive personalized insights and recommendations powered by customized intelligence templates and Gemini AI.
+- **Challenges (Simple actions)**: Complete simple sustainability actions through targeted weekly challenges directly linked to your highest emission sources.
+- **Rewards (Encourage reduction behavior)**: Gamified standings, points milestones, and badge lockers to encourage and sustain carbon reduction behavior.
 
 ---
 
@@ -302,7 +311,7 @@ See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed deployment steps on Vercel 
 
 ---
 
-## 🤖 Personalized Sustainability Intelligence
+## 🤖 Personalized Insights
 
 ### AI Sustainability Coach
 

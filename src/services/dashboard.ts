@@ -21,6 +21,14 @@ export class DashboardService {
   }
 
   /**
+   * Calculates MVP habit streak based on verification history.
+   * If user has verified at least one challenge, streak is 1, else 0.
+   */
+  static calculateHabitStreak(verificationCount: number): number {
+    return verificationCount > 0 ? 1 : 0;
+  }
+
+  /**
    * Transforms assessment details into categorized chart items.
    */
   static generateChartData(input: AssessmentFormInput): DashboardChartData[] {

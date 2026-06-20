@@ -112,11 +112,12 @@ export default function DashboardPage() {
   const { score, input } = assessmentData;
   const rating = DashboardService.getSustainabilityRating(score);
   const chartData = DashboardService.generateChartData(input);
+  const streak = DashboardService.calculateHabitStreak(verificationHistory.length);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
       <DashboardHeader onResetAssessment={handleResetAssessment} />
-      <MetricCards carbonScore={score} rating={rating} points={points} />
+      <MetricCards carbonScore={score} rating={rating} points={points} streak={streak} />
       <SustainabilityRating rating={rating} />
       <CarbonBreakdownChart data={chartData} />
       <AICoachCard score={score} grade={rating} input={input} />

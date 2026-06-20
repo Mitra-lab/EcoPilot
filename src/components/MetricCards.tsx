@@ -11,7 +11,7 @@ export function MetricCards({
   carbonScore,
   rating,
   points = 120,
-  streak = 3,
+  streak = 0,
 }: MetricCardsProps) {
   const ratingColors = {
     "A+": "text-emerald-500 border-emerald-500/20 bg-emerald-500/5",
@@ -51,7 +51,7 @@ export function MetricCards({
         </span>
         <div className="flex items-baseline mt-2 gap-1">
           <span className="text-3xl font-extrabold text-[hsl(var(--foreground))]">🔥 {streak}</span>
-          <span className="text-xs font-medium text-[hsl(var(--muted-foreground))]">days</span>
+          <span className="text-xs font-medium text-[hsl(var(--muted-foreground))]">{streak === 1 ? "day" : "days"}</span>
         </div>
       </div>
 
