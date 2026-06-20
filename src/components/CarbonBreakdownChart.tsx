@@ -18,9 +18,13 @@ interface CarbonBreakdownChartProps {
   data: DashboardChartData[];
 }
 
+interface TooltipPayloadItem {
+  payload: DashboardChartData;
+}
+
 interface CustomTooltipProps {
   active?: boolean;
-  payload?: any[];
+  payload?: TooltipPayloadItem[];
 }
 
 const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {

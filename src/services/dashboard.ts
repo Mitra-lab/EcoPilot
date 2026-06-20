@@ -10,6 +10,8 @@ export interface DashboardChartData {
 export class DashboardService {
   /**
    * Translates carbon score into letter grades (A+, A, B, C, D)
+   * @param score Annual per-capita emission index
+   * @returns Letter grade character mapping
    */
   static getSustainabilityRating(score: number): "A+" | "A" | "B" | "C" | "D" {
     if (score <= 2.0) return "A+";
@@ -21,6 +23,8 @@ export class DashboardService {
 
   /**
    * Transforms assessment details into categorized chart items.
+   * @param input Form data variables
+   * @returns Mapped chart objects representing emissions categories
    */
   static generateChartData(input: AssessmentFormInput): DashboardChartData[] {
     const dietEmissions = CarbonService.getDietEmissions(input.dietPreference);

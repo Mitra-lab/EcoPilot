@@ -64,7 +64,7 @@ export function AICoachCard({ score, grade, input }: AICoachCardProps) {
 
       const data = await response.json();
       setRecommendations(data.recommendations);
-    } catch (err: any) {
+    } catch (err) {
       setError("Failed to fetch recommendation guides. Please check your network and retry.");
     } finally {
       setLoading(false);

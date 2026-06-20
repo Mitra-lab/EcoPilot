@@ -70,7 +70,7 @@ export function ChallengeList({
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
           // Sync completion from verification status if status is verified
-          const synced = parsed.map((ch: any) => {
+          const synced: UserChallenge[] = parsed.map((ch: UserChallenge) => {
             if (ch.status === undefined) {
               return {
                 ...ch,

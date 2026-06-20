@@ -11,6 +11,17 @@ export interface Recommendation {
 export class AIService {
   /**
    * Generates structured prompt for Gemini coach recommendations
+   * @param carbonScore User's overall score index
+   * @param dietEmissions Food category emissions
+   * @param travelEmissions Transportation category emissions
+   * @param electricityEmissions Utilities category emissions
+   * @param grade Sustainability letter grade A to D
+   * @param dietPreference Preference selector option
+   * @param vehicleType Engine type selector option
+   * @param weeklyTravelDistance Weekly kilometers
+   * @param monthlyElectricityBill Monthly cost
+   * @param familySize Total household members
+   * @returns Formatted prompt string for Gemini API content generation
    */
   static generateCoachPrompt(
     carbonScore: number,
@@ -47,6 +58,8 @@ Provide context-specific advice based on their highest emission category. If the
 
   /**
    * Parses the Gemini model string response safely.
+   * @param text Raw response string from Gemini
+   * @returns Structured recommendation array
    */
   static parseRecommendationsResponse(text: string): Recommendation[] {
     // Strip possible code fence syntax
@@ -63,8 +76,8 @@ Provide context-specific advice based on their highest emission category. If the
       }
       return {
         action: String(item.action),
-        impact: ["High", "Medium", "Low"].includes(item.impact) ? item.impact : "Medium",
-        difficulty: ["Easy", "Medium", "Hard"].includes(item.difficulty) ? item.difficulty : "Medium",
+        impact: ["High", "Medium", "Low"].includes(item.impact) ? (item.impact as "High" | "Medium" | "Low") : "Medium",
+        difficulty: ["Easy", "Medium", "Hard"].includes(item.difficulty) ? (item.difficulty as "Easy" | "Medium" | "Hard") : "Medium",
         potentialReduction: String(item.potentialReduction),
       };
     });
